@@ -26,7 +26,7 @@ link = request.LAN("lan")
 
 # Create controller node
 node = request.RawPC("GCM")
-node.disk_image = 'rn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD'
+node.disk_image = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD'
 node.hardware_type = params.nodeType
 iface = node.addInterface("if1")
 iface.component_id = "eth1"
