@@ -33,7 +33,7 @@ node.disk_image = IMAGE
 node.hardware_type = params.nodeType
 iface = node.addInterface("if1")
 iface.addAddress(rspec.IPv4Address("192.168.6.10", "255.255.255.0"))
-land.addInterface(iface)
+lan.addInterface(iface)
 nodes.append(node)
 
 # Create 3 worker nodes
@@ -43,7 +43,7 @@ for i in range(1,4):
   node.hardware_type = params.nodeType
   iface = node.addInterface("if1")
   iface.addAddress(rspec.IPv4Address("192.168.6." + str(10 - i), "255.255.255.0"))
-  link.addInterface(iface)
+  lan.addInterface(iface)
   nodes.append(node)
 
 pc.printRequestRSpec()
