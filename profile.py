@@ -1,0 +1,48 @@
+""" EC Profile
+Instructions:
+TODO
+"""
+
+import time
+
+# Import the Portal object.
+import geni.portal as portal
+# Import the ProtoGENI library.
+import geni.rspec.pg as rspec
+
+# Set up parameters
+pc = portal.Context()
+pc.defineParameter("nodeType", 
+                   "Node Hardware Type",
+                   portal.ParameterType.NODETYPE, 
+                   "c6220",
+                   longDescription="A specific hardware type to use for all nodes. This profile has primarily been tested with c6220 and c8220 nodes.")
+params = pc.bindParameters()
+pc.verifyParameters()
+request = pc.makeRequestRSpec()
+
+nodes = []
+link = request.LAN("lan")
+
+# Create controller node
+node = request.RawPC("GCM")
+node.disk_image = 'rn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD'
+node.hardware_type = params.nodeType
+iface = node.addInterface("if1")
+iface.component_id = "eth1"
+iface.addAddress(rspec.IPv4Address("192.168.6.10", "255.255.255.0"))
+nodes.append(node)
+link.addInterface(iface)
+
+# Create 3 worker nodes
+for i in range(1,4):
+  node = request.RawPC("node-" + str(i))
+  node.disk_image = 'rn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD'
+  node.hardware_type = params.nodeType
+  iface = node.addInterface("if1")
+  iface.component_id = "eth1"
+  iface.addAddress(rspec.IPv4Address("192.168.6." + str(10 - i), "255.255.255.0"))
+  nodes.append(node)
+  link.addInterface(iface)
+
+pc.printRequestRSpec()
