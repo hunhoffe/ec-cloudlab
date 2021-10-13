@@ -47,14 +47,15 @@ lan.addInterface(iface)
 # Create 3 worker nodes
 for i in range(1,NUM_WORKERS + 1):
   # Create node
-  node = request.RawPC("node-" + str(i))
+  name = "node-{}".format(i)
+  node = request.RawPC(name)
   node.disk_image = IMAGE
   node.hardware_type = params.nodeType
   nodes.append(node)
   
   # Add interface
   iface = node.addInterface("if1")
-  iface.addAddress(rspec.IPv4Address("192.168.6." + str(10 - i), "255.255.255.0"))
+  iface.addAddress(rspec.IPv4Address("192.168.6.{}".format(10 - i), "255.255.255.0"))
   lan.addInterface(iface)
   
   # Add extra storage space
