@@ -12,6 +12,7 @@ import geni.rspec.pg as rspec
 
 # Profile Configuration Constants
 IMAGE = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD'
+WORKER_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+cudevopsfall2018-PG0:ElasticContainerTestbed.node-1'
 STORAGE = "10GB"
 # Based on how IPs are created below, NUM_WORKERS must be < 10
 NUM_WORKERS = 3
@@ -49,7 +50,7 @@ for i in range(1,NUM_WORKERS + 1):
   # Create node
   name = "node-{}".format(i)
   node = request.RawPC(name)
-  node.disk_image = IMAGE
+  node.disk_image = WORKER_IMAGE
   node.hardware_type = params.nodeType
   nodes.append(node)
   
