@@ -12,7 +12,7 @@ import geni.rspec.pg as rspec
 
 # Profile Configuration Constants
 IMAGE = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD'
-WORKER_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+cudevopsfall2018-PG0:ElasticContainerTestbed.node-1'
+WORKER_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+cudevopsfall2018-PG0:ec-node'
 STORAGE = "10GB"
 # Based on how IPs are created below, NUM_WORKERS must be < 10
 NUM_WORKERS = 2
