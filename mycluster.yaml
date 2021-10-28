@@ -2,8 +2,9 @@
 whisk:
   ingress:
     type: NodePort
-    apiHostName: REPLACE_ME_WITH_IP
+    apiHostName: 192.168.6.10
     apiHostPort: 31001
+  runtimes: "runtimes-minimal-travis.json"
 k8s:
   persistence:
     enabled: false
@@ -13,4 +14,4 @@ invoker:
   containerFactory:
     impl: "kubernetes"
     kubernetes:
-      replicaCount: REPLACE_ME_WITH_COUNT
+      replicaCount: 1
