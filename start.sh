@@ -164,7 +164,8 @@ prepare_for_openwhisk() {
         exit 1
     fi
     printf "%s: %s\n" "$(date +"%T.%N")" "Created openwhisk namespace in Kubernetes."
-
+    
+    sudo cp /local/repository/mycluster.yaml $INSTALL_DIR/openwhisk-deploy-kube/mycluster.yaml
     sudo sed -i.bak "s/REPLACE_ME_WITH_IP/$1/g" $INSTALL_DIR/openwhisk-deploy-kube/mycluster.yaml
     sudo sed -i.bak "s/REPLACE_ME_WITH_COUNT/$3/g" $INSTALL_DIR/openwhisk-deploy-kube/mycluster.yaml
     printf "%s: %s\n" "$(date +"%T.%N")" "Added actual primary node IP to $INSTALL_DIR/openwhisk-deploy-kube/mycluster.yaml"
