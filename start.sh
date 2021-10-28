@@ -66,7 +66,7 @@ setup_secondary() {
 setup_primary() {
     # initialize k8 primary node
     printf "%s: %s\n" "$(date +"%T.%N")" "Starting Kubernetes... (this can take several minutes)... "
-    sudo kubeadm init --apiserver-advertise-address=$1 --pod-network-cidr=10.11.0.0/16 > $INSTALL_DIR/k8s_install.log 2>&1
+    sudo kubeadm init --apiserver-advertise-address=$1 > $INSTALL_DIR/k8s_install.log 2>&1
     if [ $? -eq 0 ]; then
         printf "%s: %s\n" "$(date +"%T.%N")" "Done! Output in $INSTALL_DIR/k8s_install.log"
     else
@@ -75,10 +75,16 @@ setup_primary() {
         exit 1
     fi
 
-    # set up kubectl 
-    mkdir -p $HOME/.kube
     sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
     sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+    sudo cp /etc/kubernetes/admin.conf $HOME/
+    sudo chown $(id -u):$(id -g) $HOME/admin.conf
+    export KUBECONFIG=$HOME/admin.conf
+
+    sudo sysctl net.bridge.bridge-nf-call-iptables=1
+    export kubever=$(kubectl version | base64 | tr -d '\n')
+    kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
 
     # wait until all pods are started except 2 (the DNS pods)
     NUM_PENDING=$(kubectl get pods -o wide --all-namespaces 2>&1 | grep Pending | wc -l)
