@@ -11,8 +11,8 @@ import geni.portal as portal
 import geni.rspec.pg as rspec
 
 # Profile Configuration Constants
-#GCM_IMAGE = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD'
-GCM_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+cudevopsfall2018-PG0:ec-gcm'
+GCM_IMAGE = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD'
+#GCM_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+cudevopsfall2018-PG0:ec-gcm'
 NODE_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+cudevopsfall2018-PG0:ec-node'
 STORAGE = "10GB"
 # Based on how IPs are created below, NUM_WORKERS must be < 10
@@ -52,6 +52,12 @@ lan.bandwidth = BANDWIDTH
 node = request.RawPC("GCM")
 node.disk_image = GCM_IMAGE
 node.hardware_type = params.nodeType
+
+# Add extra storage space
+bs = node.Blockstore(name + "-bs", "/mydata")
+bs.size = STORAGE
+bs.placement = "any"
+
 nodes.append(node)
 
 # Add controller interface
