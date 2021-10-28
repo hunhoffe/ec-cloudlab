@@ -7,7 +7,7 @@ NUM_MIN_ARGS=3
 PRIMARY_ARG="primary"
 SECONDARY_ARG="secondary"
 NUM_PRIMARY_ARGS=6
-USAGE=$'Usage:\n\t./start.sh secondary <node_ip> <start_kubernetes>\n\t./start.sh primary <node_ip> <num_nodes> <start_kubernetes> <deploy_openwhisk> <num_invokers>'
+USAGE=$'Usage:\n\t./start.sh secondary <node_ip> <start_kubernetes>\n\t./start.sh primary <node_ip> <num_workers> <start_kubernetes> <deploy_openwhisk> <num_invokers>'
 
 configure_docker_storage() {
     echo -e '{
@@ -75,13 +75,6 @@ setup_primary() {
         exit 1
     fi
 
-    sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-    sudo chown $(id -u):$(id -g) $HOME/.kube/config
-
-    sudo cp /etc/kubernetes/admin.conf $HOME/
-    sudo chown $(id -u):$(id -g) $HOME/admin.conf
-    export KUBECONFIG=$HOME/admin.conf
-
     sudo sysctl net.bridge.bridge-nf-call-iptables=1
     export kubever=$(kubectl version | base64 | tr -d '\n')
     kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
@@ -111,7 +104,7 @@ add_cluster_nodes() {
     do 
 	sleep 2
         printf "%s: %s\n" "$(date +"%T.%N")" "Registering nodes, attempt #$counter, registered=$NUM_REGISTERED"
-        for (( i=2; i<=$1; i++ ))
+	for (( i=9; i>9-$1; i-- ))
         do
             SECONDARY_IP=$BASE_IP$i
             echo $SECONDARY_IP
