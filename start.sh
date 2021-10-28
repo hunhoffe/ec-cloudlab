@@ -229,8 +229,10 @@ if test -f "/mydata"; then
     configure_docker_storage
 fi
 
-# Use second argument (node IP) to replace filler in kubeadm configuration
+# Use second argument (node IP) to replace filler in kubeadm configuration, and restart the daemon
 sudo sed -i.bak "s/REPLACE_ME_WITH_IP/$2/g" /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+sudo systemctl daemon-reload
+sudo systemctl restart kubelet
 
 # At this point, a secondary node is fully configured until it is time for the node to join the cluster.
 if [ $1 == $SECONDARY_ARG ] ; then
