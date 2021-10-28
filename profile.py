@@ -53,7 +53,7 @@ node.disk_image = GCM_IMAGE
 node.hardware_type = params.nodeType
 
 # Add extra storage space
-bs = node.Blockstore(name + "-bs", "/mydata")
+bs = node.Blockstore("GCM-bs", "/mydata")
 bs.size = STORAGE
 bs.placement = "any"
 
