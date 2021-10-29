@@ -75,6 +75,8 @@ setup_primary() {
         exit 1
     fi
 
+    sudo cp /etc/kubernetes/admin.conf $INSTALL_DIR/.kube/config
+    sudo chown $(id -u):$EC_GROUP $INSTALL_DIR/.kube/config
     sudo sysctl net.bridge.bridge-nf-call-iptables=1
     export kubever=$(kubectl version | base64 | tr -d '\n')
     kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
