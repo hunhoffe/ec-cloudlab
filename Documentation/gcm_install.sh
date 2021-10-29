@@ -120,12 +120,11 @@ sudo systemctl restart docker
 sudo systemctl restart kubelet
 
 # Set config in group accessible, persistent location
-sudo cp -i /etc/kubernetes/admin.conf $INSTALL_DIR/.kube/config
-sudo chown $(id -u):$EC_GROUP $INSTALL_DIRE/.kube/config
-sudo cp /etc/kubernetes/admin.conf $INSTALL_DIR
-sudo chown $(id -u):$EC_GROUP $INSTALL_DIR/admin.conf
-export KUBECONFIG=$INSTALL_DIR/admin.conf
-echo "KUBECONFIG=$INSTALL_DIR/admin.conf" | sudo tee -a /etc/environment
+sudo mkdir $INSTALL_DIR/.kube
+sudo cp /etc/kubernetes/admin.conf $INSTALL_DIR/.kube/config
+sudo chown $(id -u):$(id -g) $INSTALL_DIR/.kube/config
+export KUBECONFIG=$INSTALL_DIR/.kube/config
+echo "KUBECONFIG=$INSTALL_DIR/.kube/config" | sudo tee -a /etc/environment
 
 # Download openwhisk-deploy-kube repo
 sudo git clone https://github.com/apache/openwhisk-deploy-kube.git $INSTALL_DIR/openwhisk-deploy-kube
