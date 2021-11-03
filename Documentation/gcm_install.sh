@@ -7,17 +7,6 @@ INSTALL_DIR=/home/ec
 # Group to use so others can get access to the INSTALL_DIR
 EC_GROUP=ecuser
 
-#Private IP of the GCM node
-PRIVATE_IP=192.168.6.10
-
-# Check access to github
-if ssh -o "StrictHostKeyChecking no" -T git@github.com 2>&1 | grep -q "You've successfully authenticated"; then
-  echo "Verified SSH access to git."
-else
-  echo "ERROR: Please initialized your github ssh key before proceeding."
-  exit -1
-fi
-
 # Install Cmake
 version=3.16
 build=2
@@ -34,29 +23,40 @@ sudo apt-get update
 sudo apt-get install -y g++ git libboost-atomic-dev libboost-thread-dev libboost-system-dev libboost-date-time-dev libboost-regex-dev libboost-filesystem-dev libboost-random-dev libboost-chrono-dev libboost-serialization-dev libwebsocketpp-dev openssl libssl-dev ninja-build
 cd ~
 
-# Install docker
+# Install docker (https://docs.docker.com/engine/install/ubuntu/)
 sudo apt-get update
 sudo apt-get install -y \
-    apt-transport-https \
     ca-certificates \
     curl \
-    gnupg-agent \
-    software-properties-common
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo apt-key fingerprint 0EBFCD88
-sudo add-apt-repository \
-   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-   $(lsb_release -cs) \
-   stable"
+    gnupg \
+    lsb-release
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+# Set to use extra docker image storage, and set cgroupdriver
+echo -e '{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2",
+  "data-root": "/mydata/docker"
+}' | sudo tee /etc/docker/daemon.json
+sudo systemctl restart docker
+sudo docker run hello-world | grep "Hello from Docker!" || (echo "ERROR: Docker installation failed, exiting." && exit -1)
 
 # Install Kubernetes
-sudo apt-get update && sudo apt-get install -y apt-transport-https
+sudo apt-get update
 sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 echo 'deb http://apt.kubernetes.io/ kubernetes-xenial main' | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
 sudo apt-get install -y kubelet kubeadm kubectl
+# Set to use private IP
+sudo sed -i.bak "s/KUBELET_CONFIG_ARGS=--config=\/var\/lib\/kubelet\/config\.yaml/KUBELET_CONFIG_ARGS=--config=\/var\/lib\/kubelet\/config\.yaml --node-ip=192\.168\.6\.10/g" /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 
 # Install gcc-8
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test
@@ -99,32 +99,12 @@ sudo mkdir $INSTALL_DIR
 sudo chgrp -R $EC_GROUP $INSTALL_DIR
 sudo chmod -R o+rw $INSTALL_DIR
 
-# Prepare for Kubernetes - set extra storage for docker
-# Set cgroups driver
-echo -e '{
-  "exec-opts": ["native.cgroupdriver=systemd"],
-  "log-driver": "json-file",
-  "log-opts": {
-    "max-size": "100m"
-  },
-  "storage-driver": "overlay2",
-  "data-root": "/mydata/docker"
-}' | sudo tee /etc/docker/daemon.json
-
-# Tell Kubernetes to use private cloudlab IP
-sudo sed -i.bak "s/KUBELET_CONFIG_ARGS=--config=\/var\/lib\/kubelet\/config\.yaml/KUBELET_CONFIG_ARGS=--config=\/var\/lib\/kubelet\/config\.yaml --node-ip=192\.168\.6\.10/g" /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
-
-# Persist Kubernetes/docker settings
-sudo systemctl daemon-reload
-sudo systemctl restart docker
-sudo systemctl restart kubelet
-
 # Download openwhisk-deploy-kube repo
 sudo git clone https://github.com/apache/openwhisk-deploy-kube.git $INSTALL_DIR/openwhisk-deploy-kube
 cd $INSTALL_DIR
 
 # Install casablanca
-git clone git@github.com:microsoft/cpprestsdk.git casablanca
+git clone https://github.com/microsoft/cpprestsdk.git casablanca
 cd casablanca
 mkdir build.debug
 cd build.debug
