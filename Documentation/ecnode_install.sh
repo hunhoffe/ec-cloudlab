@@ -64,7 +64,7 @@ source ~/.profile
 
 # For building the kernel
 cp -v /boot/config-$(uname -r) .config
-sudo apt-get install build-essential libncurses-dev bison flex libssl-dev libelf-dev
+sudo apt-get install -y build-essential libncurses-dev bison flex libssl-dev libelf-dev
 
 # Mount ECKernel
 sudo mkfs.ext4 /dev/sda4
