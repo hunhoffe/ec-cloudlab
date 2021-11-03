@@ -80,6 +80,7 @@ setup_primary() {
     sudo cp /etc/kubernetes/admin.conf $INSTALL_DIR/.kube/config
     export KUBECONFIG=$INSTALL_DIR/.kube/config
     echo "KUBECONFIG=$INSTALL_DIR/.kube/config" | sudo tee -a /etc/environment
+    sudo chown $(id -u):$(id -g) /home/ec/.kube/config
 
     sudo sysctl net.bridge.bridge-nf-call-iptables=1
     export kubever=$(kubectl version | base64 | tr -d '\n')
