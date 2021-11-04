@@ -93,8 +93,8 @@ add_cluster_nodes() {
 
     CLUSTER_NODES=$(($1+1))
     echo "Cluster nodes expected: $CLUSTER_NODES"
-    NUM_REGISTERED=$(kubectl get nodes | wc -l)
-    NUM_REGISTERED=$((CLUSTER_NODES - NUM_REGISTERED))
+    NUM_REGISTERED=$(kubectl get nodes | tail -n +1 | wc -l)
+    NUM_REGISTERED=$((NUM_REGISTERED - CLUSTER_NODES))
     echo "Starting with $NUM_REGISTERED/$CLUSTER_NODES nodes..."
     counter=0
     while [ "$NUM_REGISTERED" -ne 0 ]
@@ -110,9 +110,9 @@ add_cluster_nodes() {
             exec 3<&-
         done
 	counter=$((counter+1))
-        NUM_REGISTERED=$(kubectl get nodes | wc -l)
+        NUM_REGISTERED=$(kubectl get nodes | tail -n +1 | wc -l)
 	echo "Counted $NUM_REGISTERED/$CLUSTER_NODES nodes"
-        NUM_REGISTERED=$((CLUSTER_NODES-NUM_REGISTERED)) 
+        NUM_REGISTERED=$((NUM_REGISTERED - CLUSTER_NODES)) 
     done
 
     printf "%s: %s\n" "$(date +"%T.%N")" "Waiting for all nodes to have status of 'Ready': "
