@@ -91,13 +91,16 @@ add_cluster_nodes() {
     REMOTE_CMD=$(tail -n 2 $INSTALL_DIR/k8s_install.log)
     printf "%s: %s\n" "$(date +"%T.%N")" "Remote command is: $REMOTE_CMD"
 
+    CLUSTER_NODES=$(($1+1))
+    echo "Cluster nodes expected: $CLUSTER_NODES"
     NUM_REGISTERED=$(kubectl get nodes | wc -l)
-    NUM_REGISTERED=$(($1-NUM_REGISTERED+1))
+    NUM_REGISTERED=$((CLUSTER_NODES - NUM_REGISTERED))
+    echo "Starting with $NUM_REGISTERED/$CLUSTER_NODES nodes..."
     counter=0
     while [ "$NUM_REGISTERED" -ne 0 ]
     do 
 	sleep 2
-        printf "%s: %s\n" "$(date +"%T.%N")" "Registering nodes, attempt #$counter, registered=$NUM_REGISTERED"
+        printf "%s: %s\n" "$(date +"%T.%N")" "Registering nodes, attempt #$counter, registered=$NUM_REGISTERED expected=$CLUSTER_NODES"
 	for (( i=9; i>9-$1; i-- ))
         do
             SECONDARY_IP=$BASE_IP$i
@@ -108,7 +111,8 @@ add_cluster_nodes() {
         done
 	counter=$((counter+1))
         NUM_REGISTERED=$(kubectl get nodes | wc -l)
-        NUM_REGISTERED=$(($1-NUM_REGISTERED+1)) 
+	echo "Counted $NUM_REGISTERED/$CLUSTER_NODES nodes"
+        NUM_REGISTERED=$((CLUSTER_NODES-NUM_REGISTERED)) 
     done
 
     printf "%s: %s\n" "$(date +"%T.%N")" "Waiting for all nodes to have status of 'Ready': "
