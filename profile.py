@@ -11,7 +11,7 @@ import geni.portal as portal
 import geni.rspec.pg as rspec
 
 # Profile Configuration Constants
-GCM_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+cudevopsfall2018-PG0:ec-gcm'
+GCM_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+cu-bison-lab-PG0:ec-gcm'
 # GCM_IMAGE = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD'
 NODE_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+cu-bison-lab-PG0:ec-node'
 STORAGE = "10GB"
