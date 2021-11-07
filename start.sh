@@ -93,7 +93,7 @@ add_cluster_nodes() {
 
     CLUSTER_NODES=$(($1+1))
     echo "Cluster nodes expected: $CLUSTER_NODES"
-    NUM_REGISTERED=$(kubectl get nodes | tail -n +1 | wc -l)
+    NUM_REGISTERED=$(kubectl get nodes | tail -n +2 | wc -l)
     NUM_REGISTERED=$((NUM_REGISTERED - CLUSTER_NODES))
     echo "Starting with $NUM_REGISTERED/$CLUSTER_NODES nodes..."
     counter=0
