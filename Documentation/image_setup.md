@@ -16,6 +16,7 @@ IP addresses should be configured as follows:
 Below are instructions for creating an ECM Node image:
 * Start with an Ubuntu 18.04 image (```urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD```)
 * Run the ```gcm_install.sh``` script. You may need to press the 'enter' key a few times while it runs.
+* Run the ```pull_images.sh``` script. This pulls the images needed by ```kubeadm``` and saves them in ```/home/ec/k8s-images```. This fixed an intermittent image pull bug I had when running ```kubadm init``` in the start script of the GCM node .
 * Use Cloudlab to create the image!
 
 ## Worker Node
