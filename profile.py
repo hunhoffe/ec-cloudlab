@@ -93,6 +93,6 @@ for i, node in enumerate(nodes[1:]):
 
 # Run start script on GCM
 nodes[0].addService(rspec.Execute(shell="bash", command="/local/repository/start.sh primary 192.168.6.10 {} {} {} {} > /home/openwhisk-kubernetes/start.log".format(
-  params.nodeCount, startKubernetes, deployOpenWhisk, params.nodeCount)))
+  params.nodeCount, startKubernetes, deployOpenwhisk, params.nodeCount)))
 
 pc.printRequestRSpec()
