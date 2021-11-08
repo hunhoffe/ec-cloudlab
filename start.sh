@@ -51,6 +51,12 @@ setup_secondary() {
 }
 
 setup_primary() {
+    # Load locally saved images
+    ls /home/ec/k8s-images | while read image
+    do 
+        sudo docker load -i /home/ec/k8s-images/$image
+    done
+
     # initialize k8 primary node
     printf "%s: %s\n" "$(date +"%T.%N")" "Starting Kubernetes... (this can take several minutes)... "
     sudo kubeadm init --apiserver-advertise-address=$1 > $INSTALL_DIR/k8s_install.log 2>&1
