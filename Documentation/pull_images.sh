@@ -15,9 +15,9 @@ do
 
        # Remove image repo prefix (which messes with file creation) and leave just image name & version
        echo $line
-       IMAGE_NAME="$(cut -d'/' -f2 <<< "$line")"
-       echo IMAGE_NAME
+       IMAGE_NAME=${line##*/}
+       echo $IMAGE_NAME
 
        # Save the image locally in $IMAGE_DIR, since this is image persistent. 
-       sudo docker save $line > $IMAGE_DIR/$IMAGE_NAME.tar
+       sudo docker save $line -o $IMAGE_DIR/$IMAGE_NAME.tar
 done
