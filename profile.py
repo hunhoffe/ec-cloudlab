@@ -92,7 +92,7 @@ for i, node in enumerate(nodes[1:]):
       10 - i, startKubernetes)))
 
 # Run start script on GCM
-nodes[0].addService(rspec.Execute(shell="bash", command="/local/repository/start.sh primary 192.168.6.10 {} {} {} {} > /home/ec/start.log".format(
-  params.nodeCount, startKubernetes, deployOpenwhisk, params.nodeCount)))
+# nodes[0].addService(rspec.Execute(shell="bash", command="/local/repository/start.sh primary 192.168.6.10 {} {} {} {} > /home/ec/start.log".format(
+#   params.nodeCount, startKubernetes, deployOpenwhisk, params.nodeCount)))
 
 pc.printRequestRSpec()
