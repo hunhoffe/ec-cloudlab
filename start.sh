@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 BASE_IP="192.168.6."
 SECONDARY_PORT=3000
 INSTALL_DIR=/home/ec
