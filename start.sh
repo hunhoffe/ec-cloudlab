@@ -57,6 +57,7 @@ setup_primary() {
     ls /home/ec/k8s-images | while read image
     do 
         sudo docker load -i /home/ec/k8s-images/$image
+	echo "%s: %s\n" "$(date +"%T.%N")" "Loaded image $image"
     done
 
     # initialize k8 primary node
