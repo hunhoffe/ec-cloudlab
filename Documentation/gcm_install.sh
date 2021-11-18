@@ -44,7 +44,6 @@ echo -e '{
     "max-size": "100m"
   },
   "storage-driver": "overlay2",
-  "data-root": "/mydata/docker"
 }' | sudo tee /etc/docker/daemon.json
 sudo systemctl restart docker
 sudo docker run hello-world | grep "Hello from Docker!" || (echo "ERROR: Docker installation failed, exiting." && exit -1)
