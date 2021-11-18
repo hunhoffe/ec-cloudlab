@@ -43,7 +43,7 @@ echo -e '{
   "log-opts": {
     "max-size": "100m"
   },
-  "storage-driver": "overlay2",
+  "storage-driver": "overlay2"
 }' | sudo tee /etc/docker/daemon.json
 sudo systemctl restart docker || (echo "ERROR: Docker installation failed, exiting." && exit -1)
 sudo docker run hello-world | grep "Hello from Docker!" || (echo "ERROR: Docker installation failed, exiting." && exit -1)
