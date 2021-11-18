@@ -127,7 +127,7 @@ add_cluster_nodes() {
             exec 3<&-
         done
 	counter=$((counter+1))
-        NUM_REGISTERED=$(kubectl get nodes | tail -n +1 | wc -l)
+        NUM_REGISTERED=$(kubectl get nodes | tail -n +2 | wc -l)
 	echo "Counted $NUM_REGISTERED/$CLUSTER_NODES nodes"
         NUM_REGISTERED=$((CLUSTER_NODES - NUM_REGISTERED))
     done
