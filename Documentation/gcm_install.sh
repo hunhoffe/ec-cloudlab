@@ -45,7 +45,7 @@ echo -e '{
   },
   "storage-driver": "overlay2",
 }' | sudo tee /etc/docker/daemon.json
-sudo systemctl restart docker
+sudo systemctl restart docker || (echo "ERROR: Docker installation failed, exiting." && exit -1)
 sudo docker run hello-world | grep "Hello from Docker!" || (echo "ERROR: Docker installation failed, exiting." && exit -1)
 
 # Install Kubernetes
