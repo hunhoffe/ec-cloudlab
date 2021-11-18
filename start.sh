@@ -11,6 +11,21 @@ SECONDARY_ARG="secondary"
 NUM_PRIMARY_ARGS=6
 USAGE=$'Usage:\n\t./start.sh secondary <node_ip> <start_kubernetes>\n\t./start.sh primary <node_ip> <num_workers> <start_kubernetes> <deploy_openwhisk> <num_invokers>'
 
+configure_docker_storage() {
+    echo -e '{
+        "exec-opts": ["native.cgroupdriver=systemd"],
+        "log-driver": "json-file",
+        "log-opts": {
+            "max-size": "100m"
+        },
+        "storage-driver": "overlay2",
+        "data-root": "/mydata/docker"
+    }' | sudo tee /etc/docker/daemon.json
+    sudo systemctl restart docker || (echo "ERROR: Docker installation failed, exiting." && exit -1)
+    sudo docker run hello-world | grep "Hello from Docker!" || (echo "ERROR: Docker installation failed, exiting." && exit -1)
+    printf "%s: %s\n" "$(date +"%T.%N")" "Configured docker storage to use mountpoint"
+}
+
 disable_swap() {
     # Turn swap off and comment out swap line in /etc/fstab
     sudo swapoff -a
@@ -227,6 +242,11 @@ fi
 
 # Kubernetes does not support swap, so we must disable it
 disable_swap
+
+# Use mountpoint (if it exists) to set up additional docker image storage
+if test -f "/mydata"; then
+    configure_docker_storage
+fi
 
 # Use second argument (node IP) to replace filler in kubeadm configuration, and restart the daemon
 sudo sed -i.bak "s/REPLACE_ME_WITH_IP/$2/g" /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
