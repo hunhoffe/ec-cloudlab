@@ -55,7 +55,8 @@ echo 'deb http://apt.kubernetes.io/ kubernetes-xenial main' | sudo tee -a /etc/a
 sudo apt-get update
 sudo apt-get install -y kubelet kubeadm kubectl
 # Set to use private IP
-sudo sed -i.bak "s/KUBELET_CONFIG_ARGS=--config=\/var\/lib\/kubelet\/config\.yaml/KUBELET_CONFIG_ARGS=--config=\/var\/lib\/kubelet\/config\.yaml --node-ip=192\.168\.6\.10/g" /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+sudo sed -i.bak "s/KUBELET_CONFIG_ARGS=--config=\/var\/lib\/kubelet\/config\.yaml/KUBELET_CONFIG_ARGS=--config=\/var\/lib\/kubelet\/config\.yaml --node-ip=REPLACE_ME_WITH_IP/g" /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+sudo sed '6 i Environment="cgroup-driver=systemd/cgroup-driver=cgroupfs"' /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 
 # Install gcc-8
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test
