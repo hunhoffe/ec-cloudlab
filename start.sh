@@ -134,13 +134,13 @@ add_cluster_nodes() {
 
     printf "%s: %s\n" "$(date +"%T.%N")" "Waiting for all nodes to have status of 'Ready': "
     NUM_READY=$(kubectl get nodes | grep Ready | wc -l)
-    NUM_READY=$(($1-NUM_READY))
+    NUM_READY=$(($1-NUM_READY+1))
     while [ "$NUM_READY" -ne 0 ]
     do
         sleep 1
         printf "."
         NUM_READY=$(kubectl get nodes | tail -n +2 | wc -l)
-        NUM_READY=$(($1-NUM_READY))
+        NUM_READY=$(($1-NUM_READY+1))
     done
     printf "%s: %s\n" "$(date +"%T.%N")" "Done!"
 }
