@@ -41,8 +41,10 @@ disable_swap() {
 setup_secondary() {
     coproc nc -l $1 $SECONDARY_PORT
 
-    printf "%s: %s\n" "$(date +"%T.%N")" "Waiting for command to join kubernetes cluster"
+    printf "%s: %s\n" "$(date +"%T.%N")" "Waiting for command to join kubernetes cluster, nc pid is $COPROC_PID"
     while true; do
+        printf "%s: %s\n" "$(date +"%T.%N")" "Waiting for command to join kubernetes cluster, nc pid is $COPROC_PID"
+	sleep 1s
         read -ru ${COPROC[0]} cmd
         case $cmd in
             *"kube"*)
