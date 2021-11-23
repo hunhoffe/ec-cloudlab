@@ -12,7 +12,6 @@ import geni.rspec.pg as rspec
 
 # Profile Configuration Constants
 GCM_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+cudevopsfall2018-PG0:ec-github.GCM'
-#GCM_IMAGE = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD'
 NODE_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+cu-bison-lab-PG0:ec-node'
 STORAGE = 10
 NODE_TYPE = 'c6220'
@@ -22,13 +21,11 @@ BANDWIDTH = 10000000
 
 # Set up parameters
 pc = portal.Context()
-'''
 pc.defineParameter("nodeType", 
-                   "Node Hardware Type",
-                   portal.ParameterType.NODETYPE, 
-                   "c6220",
-                   longDescription="A specific hardware type to use for all nodes. This profile has primarily been tested with c6220 and c8220 nodes.")
-'''
+                   "Node Hardware Type (only c6220 supported)",
+                   portal.ParameterType.STRING, 
+                   NODE_TYPE,
+                   longDescription="A specific hardware type to use for all nodes. TODO: add support for c8220 nodes.")
 pc.defineParameter("nodeCount", 
                    "Number of worker nodes",
                    portal.ParameterType.INTEGER, 
@@ -84,7 +81,7 @@ lan.bandwidth = BANDWIDTH
 # Create controller node
 node = request.RawPC("GCM")
 node.disk_image = GCM_IMAGE
-node.hardware_type = NODE_TYPE
+node.hardware_type = params.nodeType
 
 # Add extra storage space
 bs = node.Blockstore("GCM-bs", "/mydata")
@@ -104,7 +101,7 @@ for i in range(1,params.nodeCount + 1):
   name = "node-{}".format(i)
   node = request.RawPC(name)
   node.disk_image = NODE_IMAGE
-  node.hardware_type = NODE_TYPE
+  node.hardware_type = params.nodeType
   nodes.append(node)
   
   # Add interface
