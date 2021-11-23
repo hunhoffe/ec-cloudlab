@@ -38,23 +38,24 @@ disable_swap() {
     sudo sed -i.bak 's/UUID=.*swap/# &/' /etc/fstab
 }
 
-setup_secondary() {
-    coproc nc -l $1 $SECONDARY_PORT
+setup_secondary() {    
+    # open TCP connection, available on file descriptor 3
+    printf "%s: %s\n" "$(date +"%T.%N")" "Waiting for command to join kubernetes cluster"
+    exec 3<> /dev/tcp/$1/$SECONDARY_PORT || exit
 
-    printf "%s: %s\n" "$(date +"%T.%N")" "Waiting for command to join kubernetes cluster, nc pid is $COPROC_PID"
-    while true; do
+    while IFS= read -r -u3 line; do
         printf "%s: %s\n" "$(date +"%T.%N")" "Waiting for command to join kubernetes cluster, nc pid is $COPROC_PID"
-	sleep 1s
-        read -ru ${COPROC[0]} cmd
-        case $cmd in
-            *"kube"*)
-                MY_CMD=$cmd
-                break 
+        case $line in
+            (*"kube"*)
+	        MY_CMD=$line
+                break;
                 ;;
-            *)
+            (*)
+                printf >&2 "%s: %s\n" "$(date +"%T.%N")" "Received line:" "$line"
                 ;;
         esac
     done
+    printf "%s: %s\n" "$(date +"%T.%N")" "Command to execute is: $MY_CMD"
 
     # Remove forward slash, since original command was on two lines
     MY_CMD=$(echo sudo $MY_CMD | sed 's/\\//')
