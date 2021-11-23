@@ -1,6 +1,6 @@
 """ EC Profile
 Instructions:
-TODO
+Once all nodes are in a ready state, your experiment is ready (this may take >10 minutes). To download EC-specific github repos, install your github ssh key at all nodes. On the GCM run the gcm_setup.py script. On the workers run the node_setup.py script.
 """
 
 import time
