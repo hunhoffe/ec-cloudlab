@@ -25,6 +25,7 @@ pc.defineParameter("nodeType",
                    "Node Hardware Type (only c6220 supported)",
                    portal.ParameterType.STRING, 
                    NODE_TYPE,
+                   legalValues=[NODE_TYPE],
                    longDescription="A specific hardware type to use for all nodes. TODO: add support for c8220 nodes.")
 pc.defineParameter("nodeCount", 
                    "Number of worker nodes",
