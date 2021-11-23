@@ -89,7 +89,7 @@ startKubernetes = True
 deployOpenwhisk = False
 for i, node in enumerate(nodes[1:]):
   node.addService(rspec.Execute(shell="bash", command="/local/repository/start.sh secondary 192.168.6.{} true > /local/repository/start.log &".format(
-      10 - i, startKubernetes)))
+      9 - i, startKubernetes)))
 
 # Run start script on GCM
 nodes[0].addService(rspec.Execute(shell="bash", command="/local/repository/start.sh primary 192.168.6.10 {} {} {} {} > /home/ec/start.log".format(
