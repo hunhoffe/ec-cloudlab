@@ -86,7 +86,8 @@ setup_primary() {
     # Set config in group accessible, persistent location
     sudo mkdir $INSTALL_DIR/.kube
     sudo cp /etc/kubernetes/admin.conf $INSTALL_DIR/.kube/config
-    sudo chown -R $(id -u):$(id -g) /home/ec/.kube
+    sudo chown -R $(id -u):$(id -g) $INSTALL_DIR/.kube
+    sudo chmod g+rw $INSTALL_DIR/.kube/config
     export KUBECONFIG=$INSTALL_DIR/.kube/config
     echo "KUBECONFIG=$INSTALL_DIR/.kube/config" | sudo tee -a /etc/environment
 
