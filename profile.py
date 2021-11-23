@@ -32,6 +32,7 @@ pc.defineParameter("nodeCount",
                    portal.ParameterType.INTEGER, 
                    3,
                    min=1,
+                   max=9,
                    longDescription="Number of worker (non-GCM) nodes in the experiment. It is recommended that at least 3 be used.")
 pc.defineParameter("gcmExtraStorage",
                    "GB extra storage on GCM node",
@@ -60,20 +61,8 @@ pc.defineParameter("deployOpenWhisk",
 params = pc.bindParameters()
 
 # Verify parameters
-if params.nodeCount > 10:
-    perr = portal.ParameterWarning("The way IPs are generated for workers only allows up to 10",['nodeCount'])
-    pc.reportError(perr)
-if params.nodeCount < 0:
-    perr = portal.ParameterWarning("Negative number of worker nodes selected",['nodeCount'])
-    pc.reportError(perr)
 if not params.startKubernetes and params.deployOpenWhisk:
     perr = portal.ParameterWarning("The Kubernetes Cluster must be created in order to deploy OpenWhisk",['startKubernetes'])
-    pc.reportError(perr)
-if params.gcmExtraStorage < 0 or params.gcmExtraStorage > 100:
-    perr = portal.ParameterWarning("GCM extra storage out of bounds, must be > 0 and < 100.",['gcmExtraStorage'])
-    pc.reportError(perr)
-if params.nodeExtraStorage < 0 or params.nodeExtraStorage > 100:
-    perr = portal.ParameterWarning("Node extra storage out of bounds, must be > 0 and < 100.",['nodeExtraStorage'])
     pc.reportError(perr)
 
 pc.verifyParameters()
