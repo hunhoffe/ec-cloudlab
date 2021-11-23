@@ -53,7 +53,7 @@ setup_secondary() {
             *)
                 ;;
         esac
-	if [ -z "$var" ]
+	if [ -z "$nc_PID" ]
 	then
 	    printf "%s: %s\n" "$(date +"%T.%N")" "Restarting listener via netcat..."
 	    coproc nc { nc -l $1 $SECONDARY_PORT; }
