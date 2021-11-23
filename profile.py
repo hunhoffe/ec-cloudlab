@@ -15,30 +15,47 @@ GCM_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+cudevopsfall2018-PG0:ec-githu
 #GCM_IMAGE = 'urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD'
 NODE_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+cu-bison-lab-PG0:ec-node'
 STORAGE = "10GB"
+NODE_TYPE = 'c6220'
 # Based on how IPs are created below, NUM_WORKERS must be < 10
 
 BANDWIDTH = 10000000
 
 # Set up parameters
 pc = portal.Context()
+'''
 pc.defineParameter("nodeType", 
                    "Node Hardware Type",
                    portal.ParameterType.NODETYPE, 
                    "c6220",
                    longDescription="A specific hardware type to use for all nodes. This profile has primarily been tested with c6220 and c8220 nodes.")
+'''
 pc.defineParameter("nodeCount", 
                    "Number of worker (non-GCM) nodes in the experiment. It is recommended that at least 3 be used.",
                    portal.ParameterType.INTEGER, 
                    3)
+pc.defineParameter("startKubernetes",
+                   "Create Kubernetes cluster",
+                   portal.ParameterType.BOOLEAN,
+                   True,
+                   longDescription="Create a Kubernetes cluster using default image setup (calico networking, etc.)")
+pc.defineParameter("deployOpenWhisk",
+                   "Deploy OpenWhisk",
+                   portal.ParameterType.BOOLEAN,
+                   True,
+                   longDescription="Use helm to deploy OpenWhisk.")
 params = pc.bindParameters()
 
 # Verify parameters
 if params.nodeCount > 10:
     perr = portal.ParameterWarning("The way IPs are generated for workers only allows up to 10",['nodeCount'])
     pc.reportError(perr)
-elif params.nodeCount < 0:
+if params.nodeCount < 0:
     perr = portal.ParameterWarning("Negative number of worker nodes selected",['nodeCount'])
     pc.reportError(perr)
+if not params.startKubernetes and params.deployOpenWhisk:
+    perr = portal.ParameterWarning("The Kubernetes Cluster must be created in order to deploy OpenWhisk",['startKubernetes'])
+    pc.reportError(perr)
+    
 
 pc.verifyParameters()
 request = pc.makeRequestRSpec()
@@ -51,7 +68,7 @@ lan.bandwidth = BANDWIDTH
 # Create controller node
 node = request.RawPC("GCM")
 node.disk_image = GCM_IMAGE
-node.hardware_type = params.nodeType
+node.hardware_type = NODE_TYPE
 
 # Add extra storage space
 bs = node.Blockstore("GCM-bs", "/mydata")
@@ -65,13 +82,13 @@ iface = node.addInterface("if1")
 iface.addAddress(rspec.IPv4Address("192.168.6.10", "255.255.255.0"))
 lan.addInterface(iface)
 
-# Create 3 worker nodes
+# Creat worker nodes
 for i in range(1,params.nodeCount + 1):
   # Create node
   name = "node-{}".format(i)
   node = request.RawPC(name)
   node.disk_image = NODE_IMAGE
-  node.hardware_type = params.nodeType
+  node.hardware_type = NODE_TYPE
   nodes.append(node)
   
   # Add interface
@@ -85,14 +102,12 @@ for i in range(1,params.nodeCount + 1):
   bs.placement = "any"
 
 # Run start script on worker nodes
-startKubernetes = True
-deployOpenwhisk = False
 for i, node in enumerate(nodes[1:]):
   node.addService(rspec.Execute(shell="bash", command="/local/repository/start.sh secondary 192.168.6.{} true > /local/repository/start.log &".format(
       9 - i, startKubernetes)))
 
 # Run start script on GCM
 nodes[0].addService(rspec.Execute(shell="bash", command="/local/repository/start.sh primary 192.168.6.10 {} {} {} {} > /home/ec/start.log".format(
-    params.nodeCount, startKubernetes, deployOpenwhisk, params.nodeCount)))
+    params.nodeCount, params.startKubernetes, params.deployOpenWhisk, params.nodeCount)))
 
 pc.printRequestRSpec()
