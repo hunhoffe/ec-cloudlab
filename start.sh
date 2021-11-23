@@ -51,6 +51,7 @@ setup_secondary() {
                 break 
                 ;;
             *)
+	    	printf "%s: %s\n" "$(date +"%T.%N")" "Read: $cmd"
                 ;;
         esac
 	if [ -z "$nc_PID" ]
