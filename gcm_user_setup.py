@@ -41,6 +41,8 @@ cmake .. && make -j && sudo make install
 cd $INSTALL_DIR
 
 # Compile GCM
+# the ldconfig is necessary after installing grpc. I should have done this in the gcm image creation, but oh well.
+sudo ldconfig
 cd $INSTALL_DIR/Distributed-Containers/ec_gcm 
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/bin/gcc-8 -DCMAKE_CXX_COMPILER=/usr/bin/g++-8 .
 make -j20
