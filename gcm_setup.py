@@ -1,5 +1,7 @@
 #!/bin/bash
 
+INSTALL_DIR=~
+
 # Check and see if github SSH key is set up for current user
 echo "Checking SSH access to github"
 if ssh -o "StrictHostKeyChecking no" -T git@github.com 2>&1 | grep -q "You've successfully authenticated"; then
@@ -9,9 +11,11 @@ else
   exit -1
 fi
 
-# Setup Go Paths
-INSTALL_DIR=~
+# Setup openwhisk endpoints
+wsk property set --apihost 192.168.6.10:31001
+wsk property set --auth 23bc46b1-71f6-4ed5-8c54-816aa4f8c502:123zO3xZCLrMN6v2BKK1dXYFpXlPkccOFqm12CdAsMgRU4VrNZ9lyGVCGuMDGIwP
 
+# Setup go paths
 echo "Setting up Go paths"
 echo "export GOROOT=/usr/local/go" | sudo tee -a ~/.profile
 echo "export GOPATH=$HOME/go" | sudo tee -a ~/.profile
