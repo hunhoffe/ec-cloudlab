@@ -141,3 +141,4 @@ cmake ../.. -DgRPC_INSTALL=ON                \
 make -j20
 sudo make install
 cd $INSTALL_DIR
+sudo ldconfig
