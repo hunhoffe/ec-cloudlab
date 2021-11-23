@@ -38,24 +38,22 @@ disable_swap() {
     sudo sed -i.bak 's/UUID=.*swap/# &/' /etc/fstab
 }
 
-setup_secondary() {    
-    # open TCP connection, available on file descriptor 3
-    printf "%s: %s\n" "$(date +"%T.%N")" "Waiting for command to join kubernetes cluster"
-    exec 3<> /dev/tcp/$1/$SECONDARY_PORT || exit
+setup_secondary() {
+    coproc nc { nc -l $1 $SECONDARY_PORT; }
 
-    while IFS= read -r -u3 line; do
-        printf "%s: %s\n" "$(date +"%T.%N")" "Waiting for command to join kubernetes cluster, nc pid is $COPROC_PID"
-        case $line in
-            (*"kube"*)
-	        MY_CMD=$line
-                break;
+    printf "%s: %s\n" "$(date +"%T.%N")" "Waiting for command to join kubernetes cluster, nc pid is $nc_PID"
+    while true; do
+        printf "%s: %s\n" "$(date +"%T.%N")" "Waiting for command to join kubernetes cluster, nc pid is $nc_PID"
+        read -ru ${nc[0]} cmd
+        case $cmd in
+            *"kube"*)
+                MY_CMD=$cmd
+                break
                 ;;
-            (*)
-                printf >&2 "%s: %s\n" "$(date +"%T.%N")" "Received line:" "$line"
+            *)
                 ;;
         esac
     done
-    printf "%s: %s\n" "$(date +"%T.%N")" "Command to execute is: $MY_CMD"
 
     # Remove forward slash, since original command was on two lines
     MY_CMD=$(echo sudo $MY_CMD | sed 's/\\//')
@@ -65,9 +63,6 @@ setup_secondary() {
     # run command to join kubernetes cluster
     eval $MY_CMD
     printf "%s: %s\n" "$(date +"%T.%N")" "Done!"
-
-    # Client terminates, so we don't need to.
-    # kill "$COPROC_PID"
 }
 
 setup_primary() {
