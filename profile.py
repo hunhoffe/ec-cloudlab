@@ -13,7 +13,7 @@ import geni.rspec.pg as rspec
 # Profile Configuration Constants
 GCM_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+cudevopsfall2018-PG0:ec-github.GCM'
 NODE_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+cu-bison-lab-PG0:ec-node'
-STORAGE = 10
+DEFAULT_STORAGE = 10
 NODE_TYPE = 'c6220'
 # Based on how IPs are created below, NUM_WORKERS must be < 10
 
