@@ -63,10 +63,10 @@ if params.nodeCount < 0:
 if not params.startKubernetes and params.deployOpenWhisk:
     perr = portal.ParameterWarning("The Kubernetes Cluster must be created in order to deploy OpenWhisk",['startKubernetes'])
     pc.reportError(perr)
-if params.gcmExtraStorage < 0 || params.gcmExtraStorage > 100:
+if params.gcmExtraStorage < 0 or params.gcmExtraStorage > 100:
     perr = portal.ParameterWarning("GCM extra storage out of bounds, must be > 0 and < 100.",['gcmExtraStorage'])
     pc.reportError(perr)
-if params.nodeExtraStorage < 0 || params.nodeExtraStorage > 100:
+if params.nodeExtraStorage < 0 or params.nodeExtraStorage > 100:
     perr = portal.ParameterWarning("Node extra storage out of bounds, must be > 0 and < 100.",['nodeExtraStorage'])
     pc.reportError(perr)
 
