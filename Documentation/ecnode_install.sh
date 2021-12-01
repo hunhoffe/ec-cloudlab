@@ -74,6 +74,7 @@ sudo chown -R $USER:root /mnt/ECKernel
 # Install EC-Agent
 git clone git@github.com:gregcusack/Distributed-Containers.git /mnt/ECKernel/Distributed-Containers
 cd /mnt/ECKernel/Distributed-Containers
+git checkout --track origin/ftr-serverless
 git submodule update --init -- EC-Agent/
 cd EC-Agent
 git checkout --track origin/ftr-serverless
