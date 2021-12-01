@@ -77,7 +77,7 @@ git clone git@github.com:gregcusack/Distributed-Containers.git /mnt/ECKernel/Dis
 cd /mnt/ECKernel/Distributed-Containers
 git submodule update --init -- EC-Agent/
 cd EC-Agent
-git checkout master
+git checkout ftr-serverless
 cd ..
 git submodule update --init -- third_party/cadvisor/
 cd third_party/cadvisor
