@@ -22,15 +22,14 @@ echo \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io
-# Set to use extra docker image storage, and set cgroupdriver
+# Set to use cgroupdriver
 echo -e '{
   "exec-opts": ["native.cgroupdriver=systemd"],
   "log-driver": "json-file",
   "log-opts": {
     "max-size": "100m"
   },
-  "storage-driver": "overlay2",
-  "data-root": "/mydata/docker"
+  "storage-driver": "overlay2"
 }' | sudo tee /etc/docker/daemon.json
 sudo systemctl restart docker
 sudo docker run hello-world | grep "Hello from Docker!" || (echo "ERROR: Docker installation failed, exiting." && exit -1)
