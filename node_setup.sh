@@ -25,7 +25,7 @@ git clone git@github.com:gregcusack/Distributed-Containers.git $INSTALL_DIR/Dist
 cd $INSTALL_DIR/Distributed-Containers
 git submodule update --init -- EC-Agent/
 cd EC-Agent
-git checkout ftr-serverless
+git checkout --track origin/ftr-serverless
 cd ..
 git submodule update --init -- third_party/cadvisor/
 cd third_party/cadvisor
