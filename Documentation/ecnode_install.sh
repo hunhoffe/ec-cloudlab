@@ -76,7 +76,7 @@ git clone git@github.com:gregcusack/Distributed-Containers.git /mnt/ECKernel/Dis
 cd /mnt/ECKernel/Distributed-Containers
 git submodule update --init -- EC-Agent/
 cd EC-Agent
-git checkout ftr-serverless
+git checkout --track origin/ftr-serverless
 cd ..
 git submodule update --init -- third_party/cadvisor/
 cd third_party/cadvisor
@@ -89,3 +89,5 @@ git checkout k8s-support
 # Prepare for building kernel
 cd /mnt/ECKernel/Distributed-Containers
 git submodule update --init -- EC-4.20.16/
+cd EC-4.20.16
+git checkout --track origin/ftr-serverless
