@@ -29,9 +29,12 @@ cd $INSTALL_DIR
 git clone git@github.com:gregcusack/Distributed-Containers.git
 cd Distributed-Containers
 git submodule update --init -- ec_gcm/
+cd ec_gcm
+git checkout ftr-serverless
+cd ..
 git submodule update --init -- ec_deployer/
 cd ec_deployer
-git checkout bug-mem-ONLY
+git checkout ftr-serverless
 cd ..
 git submodule update --init -- third_party/DeathStarBench/
 cd third_party/DeathStarBench
