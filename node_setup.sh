@@ -23,15 +23,10 @@ source ~/.profile
 # Setup Mount Directory Contents
 git clone git@github.com:gregcusack/Distributed-Containers.git $INSTALL_DIR/Distributed-Containers
 cd $INSTALL_DIR/Distributed-Containers
-git submodule update --init -- EC-Agent/
-cd EC-Agent
 git checkout --track origin/ftr-serverless
-cd ..
+git submodule update --init -- EC-Agent/
 git submodule update --init -- third_party/cadvisor/
 cd third_party/cadvisor
 make build
 cd ../..
 git submodule update --init -- third_party/DeathStarBench/
-cd third_party/DeathStarBench
-git checkout k8s-support
-cd ~
