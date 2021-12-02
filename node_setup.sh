@@ -25,9 +25,9 @@ source ~/.profile
 git clone git@github.com:gregcusack/Distributed-Containers.git $INSTALL_DIR/Distributed-Containers
 cd $INSTALL_DIR/Distributed-Containers
 git checkout --track origin/$EC_BRANCH
-git submodule update --init -- EC-Agent/
+git submodule update --init --remote -- EC-Agent/
+git submodule update --init --remote -- third_party/DeathStarBench/
 git submodule update --init -- third_party/cadvisor/
 cd third_party/cadvisor
 make build
 cd ../..
-git submodule update --init -- third_party/DeathStarBench/
