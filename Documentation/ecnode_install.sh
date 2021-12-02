@@ -1,6 +1,8 @@
 #!/bin/bash
 set -x
 
+EC_BRANCH="ftr-serverless"
+
 # Check access to github
 if ssh -o "StrictHostKeyChecking no" -T git@github.com 2>&1 | grep -q "You've successfully authenticated"; then
   echo "Verified SSH access to git."
@@ -74,7 +76,7 @@ sudo chown -R $USER:root /mnt/ECKernel
 # Install EC-Agent
 git clone git@github.com:gregcusack/Distributed-Containers.git /mnt/ECKernel/Distributed-Containers
 cd /mnt/ECKernel/Distributed-Containers
-git checkout --track origin/ftr-serverless
+git checkout --track origin/$EC_BRANCH
 git submodule update --init -- EC-Agent/
 git submodule update --init -- third_party/cadvisor/
 cd third_party/cadvisor
