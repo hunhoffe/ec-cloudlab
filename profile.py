@@ -16,7 +16,6 @@ import geni.rspec.pg as rspec
 # Profile Configuration Constants
 GCM_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+cudevopsfall2018-PG0:ec-github.GCM'
 NODE_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+cu-bison-lab-PG0:ec-node'
-DEFAULT_STORAGE = 10
 NODE_TYPE = 'c6220'
 # Based on how IPs are created below, NUM_WORKERS must be < 10
 
@@ -37,20 +36,24 @@ pc.defineParameter("nodeCount",
                    min=1,
                    max=9,
                    longDescription="Number of worker (non-GCM) nodes in the experiment. It is recommended that at least 3 be used.")
-pc.defineParameter("gcmExtraStorage",
-                   "GB extra storage on GCM node",
-                   portal.ParameterType.INTEGER,
-                   DEFAULT_STORAGE,
-                   min=10,
-                   max=100,
-                   longDescription="Amount of extra storage in GB mounted at /mydata on the GCM Node. This will be used for docker images as well as general purpose storage.")
-pc.defineParameter("nodeExtraStorage",
-                   "GB extra storage per node",
-                   portal.ParameterType.INTEGER,
-                   DEFAULT_STORAGE,
-                   min=10,
-                   max=100,
-                   longDescription="Amount of extra storage in GB mounted at /mydata on the worker nodes. This will be used for docker images as well as general purpose storage.")
+
+# Below two options copy/pasted directly from small-lan experiment on CloudLab
+# Optional ephemeral blockstore
+pc.defineParameter("tempFileSystemSize", "Temporary Filesystem Size",
+                   portal.ParameterType.INTEGER, 0, advanced=True,
+                   longDescription="The size in GB of a temporary file system to mount on each of your " +
+                   "nodes. Temporary means that they are deleted when your experiment is terminated. " +
+                   "The images provided by the system have small root partitions, so use this option " +
+                   "if you expect you will need more space to build your software packages or store " +
+                   "temporary files.")
+                   
+# Instead of a size, ask for all available space. 
+pc.defineParameter("tempFileSystemMax",  "Temp Filesystem Max Space",
+                    portal.ParameterType.BOOLEAN, False,
+                    advanced=True,
+                    longDescription="Instead of specifying a size for your temporary filesystem, " +
+                    "check this box to allocate all available disk space. Leave the size above as zero.")
+
 pc.defineParameter("startKubernetes",
                    "Create Kubernetes cluster",
                    portal.ParameterType.BOOLEAN,
@@ -64,12 +67,25 @@ pc.defineParameter("deployOpenWhisk",
 params = pc.bindParameters()
 
 # Verify parameters
+if params.tempFileSystemSize < 0 or params.tempFileSystemSize > 200:
+    pc.reportError(portal.ParameterError("Please specify a size greater then zero and " +
+                                         "less then 200GB", ["tempFileSystemSize"]))
 if not params.startKubernetes and params.deployOpenWhisk:
     perr = portal.ParameterWarning("The Kubernetes Cluster must be created in order to deploy OpenWhisk",['startKubernetes'])
     pc.reportError(perr)
 
 pc.verifyParameters()
 request = pc.makeRequestRSpec()
+
+def add_blockstore(node, name):
+  bs = node.Blockstore("GCM-bs", "/mydata")
+  if params.tempFileSystemSize > 0 or params.tempFileSystemMax:
+    bs = node.Blockstore(name + "-bs", params.tempFileSystemMount)
+    if params.tempFileSystemMax:
+      bs.size = "0GB"
+    else:
+      bs.size = str(params.tempFileSystemSize) + "GB"
+  bs.placement = "any"
 
 # Initial setup
 nodes = []
@@ -80,11 +96,7 @@ lan.bandwidth = BANDWIDTH
 node = request.RawPC("GCM")
 node.disk_image = GCM_IMAGE
 node.hardware_type = params.nodeType
-
-# Add extra storage space
-bs = node.Blockstore("GCM-bs", "/mydata")
-bs.size = str(params.gcmExtraStorage) + "GB"
-bs.placement = "any"
+add_blockstore(node, "GCM-bs")
 
 nodes.append(node)
 
@@ -108,9 +120,7 @@ for i in range(1,params.nodeCount + 1):
   lan.addInterface(iface)
   
   # Add extra storage space
-  bs = node.Blockstore(name + "-bs", "/mydata")
-  bs.size = str(params.nodeExtraStorage) + "GB"
-  bs.placement = "any"
+  add_blockstore(node, name + "-bs")
 
 # Run start script on worker nodes
 for i, node in enumerate(nodes[1:]):
