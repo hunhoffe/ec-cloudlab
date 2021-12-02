@@ -30,9 +30,9 @@ cd $INSTALL_DIR
 git clone git@github.com:gregcusack/Distributed-Containers.git
 cd Distributed-Containers
 git checkout --track origin/$EC_BRANCH
-git submodule update --init -- ec_gcm/
-git submodule update --init -- ec_deployer/
-git submodule update --init -- third_party/DeathStarBench/
+git submodule update --init --remote -- ec_gcm/
+git submodule update --init --remote -- ec_deployer/
+git submodule update --init --remote -- third_party/DeathStarBench/
 git submodule update --init -- third_party/spdlog/
 cd third_party/spdlog
 echo "Building spdlog..."
