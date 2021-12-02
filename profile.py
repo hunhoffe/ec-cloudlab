@@ -1,4 +1,4 @@
-""" EC Profile
+""" ESCRA on CloudLab
 Instructions:
 Once all nodes have startup state 'finished', your experiment is ready (this may take >10 minutes). 
 To download EC-specific github repos, install your github ssh key at all nodes. 
