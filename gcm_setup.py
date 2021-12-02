@@ -1,6 +1,7 @@
 #!/bin/bash
 
 INSTALL_DIR=~
+EC_BRANCH="ftr-serverless"
 
 # Check and see if github SSH key is set up for current user
 echo "Checking SSH access to github"
@@ -28,7 +29,7 @@ echo "Cloning contents into $INSTALL_DIR"
 cd $INSTALL_DIR
 git clone git@github.com:gregcusack/Distributed-Containers.git
 cd Distributed-Containers
-git checkout --track origin/ftr-serverless
+git checkout --track origin/$EC_BRANCH
 git submodule update --init -- ec_gcm/
 git submodule update --init -- ec_deployer/
 git submodule update --init -- third_party/DeathStarBench/
