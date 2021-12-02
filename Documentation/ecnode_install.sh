@@ -77,10 +77,4 @@ sudo chown -R $USER:root /mnt/ECKernel
 git clone git@github.com:gregcusack/Distributed-Containers.git /mnt/ECKernel/Distributed-Containers
 cd /mnt/ECKernel/Distributed-Containers
 git checkout --track origin/$EC_BRANCH
-git submodule update --init --remote -- third_party/DeathStarBench/
 git submodule update --init --remote -- EC-4.20.16/
-git submodule update --init --remote -- EC-Agent/
-git submodule update --init -- third_party/cadvisor/
-cd third_party/cadvisor
-make build
-
