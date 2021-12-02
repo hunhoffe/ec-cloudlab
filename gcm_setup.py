@@ -28,18 +28,10 @@ echo "Cloning contents into $INSTALL_DIR"
 cd $INSTALL_DIR
 git clone git@github.com:gregcusack/Distributed-Containers.git
 cd Distributed-Containers
+git checkout --track origin/ftr-serverless
 git submodule update --init -- ec_gcm/
-cd ec_gcm
-git checkout --track origin/ftr-serverless
-cd ..
 git submodule update --init -- ec_deployer/
-cd ec_deployer
-git checkout --track origin/ftr-serverless
-cd ..
 git submodule update --init -- third_party/DeathStarBench/
-cd third_party/DeathStarBench
-git checkout k8s-support
-cd ../..
 git submodule update --init -- third_party/spdlog/
 cd third_party/spdlog
 echo "Building spdlog..."
