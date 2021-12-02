@@ -2,6 +2,7 @@
 set -x
 
 INSTALL_DIR=~
+EC_BRANCH="ftr-serverless"
 
 # Check and see if github SSH key is set up for current user
 echo "Checking SSH access to github"
@@ -23,7 +24,7 @@ source ~/.profile
 # Setup Mount Directory Contents
 git clone git@github.com:gregcusack/Distributed-Containers.git $INSTALL_DIR/Distributed-Containers
 cd $INSTALL_DIR/Distributed-Containers
-git checkout --track origin/ftr-serverless
+git checkout --track origin/$EC_BRANCH
 git submodule update --init -- EC-Agent/
 git submodule update --init -- third_party/cadvisor/
 cd third_party/cadvisor
