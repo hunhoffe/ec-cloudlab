@@ -78,3 +78,14 @@ git clone git@github.com:gregcusack/Distributed-Containers.git /mnt/ECKernel/Dis
 cd /mnt/ECKernel/Distributed-Containers
 git checkout --track origin/$EC_BRANCH
 git submodule update --init --remote -- EC-4.20.16/
+cd EC-4.20.16
+
+# Scriptable replacement for make menuconfig
+cp -v /boot/config-$(uname -r) .config
+sudo make olddefconfig
+
+# Fix certificate issue
+sudo sed -i.bak 's/CONFIG_SYSTEM_TRUSTED_KEYS="debian\/canonical-certs.pem"/CONFIG_SYSTEM_TRUSTED_KEYS=""/g' .config
+
+# Make & install kernel
+sudo make -j40 && sudo make -j40 modules_install && sudo make -j40 install
