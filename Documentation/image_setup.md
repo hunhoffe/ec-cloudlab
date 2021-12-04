@@ -20,21 +20,9 @@ Below are instructions for creating an ECM Node image:
 
 ## Worker Node
 
-* Start with an Ubuntu 18.04 image (```urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD```)
+* Start with an Ubuntu 18.04 image (```urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD```) in the ```small-lan``` experiment with all default settings
 * Add your [GitHub ssh key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) 
 to the node & ssh agent (don't worry, your home directory won't be saved so your ssh private key won't be included in the final image)
-* Run the ```ecnode_install.sh``` script. You may need to press the 'enter' key a few times while it runs.
-* Create the kernel config:
-  ```
-  cd /mnt/ECKernel/Distributed-Containers/EC-4.20.16
-  sudo make menuconfig
-  ```
-* Change CONFIG_SYSTEM_TRUSTED_KEYS to "" to avoid a [certificate error](https://unix.stackexchange.com/questions/293642/attempting-to-compile-kernel-yields-a-certification-error)
-* Compile the kernel
-  ```
-  sudo make -j20
-  sudo make -j20 modules_install
-  sudo make -j20 install
-  sudo reboot
-  ```
-* Use Cloudlab to create the image!
+* Run the ```ecnode_install.sh``` script. This will install dependencies, compile the kernel, and install the kernel
+* Reboot the node
+* Run the ```install_modules.sh``` script. This will compile and install the kernel modules in a way that is persistent
