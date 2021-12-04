@@ -26,3 +26,4 @@ to the node & ssh agent (don't worry, your home directory won't be saved so your
 * Run the ```ecnode_install.sh``` script. This will install dependencies, compile the kernel, and install the kernel
 * Reboot the node
 * Run the ```install_modules.sh``` script. This will compile and install the kernel modules in a way that is persistent
+* Use Cloudlab to create the image!
