@@ -1,4 +1,3 @@
-```
 #!/bin/bash
 
 MNT_DIR="/mnt/ECKernel"
@@ -49,4 +48,3 @@ sudo insmod $DST_DIR/get_parent_cgid.ko
 echo get_parent_cgid | sudo tee -a /etc/modules > /dev/null
 
 sudo depmod
-```
