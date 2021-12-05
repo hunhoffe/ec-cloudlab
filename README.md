@@ -17,6 +17,25 @@ Installation specific material is found at ```/home/ec```, including the log fro
 
 After logging in for the first time, run the ```/local/repository/gcm_setup.sh``` script. In addition to setting some user-specific environment variables, this script will clone ESCRA-related repos to your home directory and also compile ```spdlog``` and ```ec_gcm```.  
 
+#### GCM Node - OpenWhisk
+
+To see information on OpenWhisk pods, make sure to specify the namespace as openwhisk. To remove OpenWhisk,
+run the following commands:
+```
+    $ cd /home/ec/openwhisk-deploy-kube
+    $ helm uninstall owdev -n openwhisk
+```
+After the helm uninstall, there may be orphan action containers which should be removed via ```kubectl```.
+
+The OpenWhisk that is deployed is configured by the values in ```/home/ec/openwhisk-deploy-kube/mycluster.yaml```, and is 
+identical to the one found [here](mycluster.yaml), except populated with the number of invokers and the IP of the primary node.
+
+To restart OpenWhisk, for instance to deploy after modifying the ```mycluster.yaml``` file, run the following helm command:
+```
+    $ cd /home/ec/openwhisk-deploy-kube
+    $ helm install owdev ./helm/openwhisk -n openwhisk -f mycluster.yaml
+```
+
 ### Worker Nodes
 
 The log from the start script is found in ```/local/repository/start.log```.
