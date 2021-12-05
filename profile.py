@@ -71,10 +71,7 @@ request = pc.makeRequestRSpec()
 
 def add_blockstore(node, name):
   bs = node.Blockstore(name + "-bs", "/mydata")
-  if params.tempFileSystemMax:
-    bs.size = "0GB"
-  else:
-    bs.size = str(params.tempFileSystemSize) + "GB"
+  bs.size = str(params.tempFileSystemSize) + "GB"
   bs.placement = "any"
 
 # Initial setup
