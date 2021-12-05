@@ -18,9 +18,8 @@ wsk property set --auth 23bc46b1-71f6-4ed5-8c54-816aa4f8c502:123zO3xZCLrMN6v2BKK
 
 # Setup go paths
 echo "Setting up Go paths"
-echo "export GOROOT=/usr/local/go" | sudo tee -a ~/.profile
-echo "export GOPATH=$HOME/go" | sudo tee -a ~/.profile
-echo "export PATH=$GOPATH/bin:$GOROOT/bin:$PATH" | sudo tee -a ~/.profile
+echo 'export GOPATH=$HOME/go' | sudo tee -a ~/.profile
+echo 'export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin' | sudo tee -a ~/.profile
 echo 'export GO111MODULE=on' | sudo tee -a ~/.profile
 source ~/.profile
 
