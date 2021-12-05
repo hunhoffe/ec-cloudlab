@@ -155,8 +155,7 @@ add_cluster_nodes() {
 prepare_for_openwhisk() {
     # Iterate over each node and set the openwhisk role
     # From https://superuser.com/questions/284187/bash-iterating-over-lines-in-a-variable
-
-    NODE_NAMES=$(kubectl get nodes -o name)
+    NODE_NAMES=$(kubectl get nodes -o name | grep "node-")
     CORE_NODES=$(($2-$3))
     counter=0
     while IFS= read -r line; do
