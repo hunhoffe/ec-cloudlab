@@ -193,21 +193,13 @@ prepare_for_openwhisk() {
 }
 
 deploy_openwhisk() {
-
-    # Deploy openwhisk via helm
-    printf "%s: %s\n" "$(date +"%T.%N")" "About to deploy OpenWhisk via Helm (test deployment)... "
-    cd $INSTALL_DIR/openwhisk-deploy-kube
-    #helm install owdev ./helm/openwhisk -n openwhisk -f mycluster.yaml
-    #sleep 30
     
-    # For whatever reason, first time deployed the labels are not respected (e.g., core on the core labelled node)
-    # So uninstall and then reinstall.
-    # printf "%s: %s\n" "$(date +"%T.%N")" "Uninstalling OpenWhisk to make sure it abides by labels... "
-    #helm uninstall owdev -n openwhisk
-    #sleep 30
+    # For whatever reason, it takes a while for the node labels to take effect. Waiting ensures
+    # openwhisk-role=core and openwhisk-role=invoker are followed.
     sleep 2m
     
-    # Reinstall
+    # Deploy openwhisk via helm
+    cd $INSTALL_DIR/openwhisk-deploy-kube
     printf "%s: %s\n" "$(date +"%T.%N")" "About to deploy OpenWhisk via Helm... "
     helm install owdev ./helm/openwhisk -n openwhisk -f mycluster.yaml > $INSTALL_DIR/helm_install.log
     
