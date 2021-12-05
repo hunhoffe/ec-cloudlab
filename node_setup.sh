@@ -1,7 +1,9 @@
+
+
 #!/bin/bash
 set -x
 
-INSTALL_DIR=~
+INSTALL_DIR=/mydata
 EC_BRANCH="ftr-serverless"
 
 # Check and see if github SSH key is set up for current user
@@ -21,13 +23,15 @@ echo "export PATH=$GOPATH/bin:$GOROOT/bin:$PATH" | sudo tee -a ~/.profile
 echo 'export GO111MODULE=on' | sudo tee -a ~/.profile
 source ~/.profile
 
-# Setup Mount Directory Contents
-git clone git@github.com:gregcusack/Distributed-Containers.git $INSTALL_DIR/Distributed-Containers
-cd $INSTALL_DIR/Distributed-Containers
+# Setup EC-related repos
+sudo mkdir $INSTALL_DIR/ec
+sudo chown $USER $INSTALL_DIR/ec
+sudo chmod u+rwx $INSTALL_DIR/ec
+git clone git@github.com:gregcusack/Distributed-Containers.git $INSTALL_DIR/ec/Distributed-Containers
+cd $INSTALL_DIR/ec/Distributed-Containers
 git checkout --track origin/$EC_BRANCH
 git submodule update --init --remote -- EC-Agent/
 git submodule update --init --remote -- third_party/DeathStarBench/
 git submodule update --init -- third_party/cadvisor/
 cd third_party/cadvisor
 make build
-cd ../..
