@@ -88,4 +88,4 @@ sudo make olddefconfig
 sudo sed -i.bak 's/CONFIG_SYSTEM_TRUSTED_KEYS="debian\/canonical-certs.pem"/CONFIG_SYSTEM_TRUSTED_KEYS=""/g' .config
 
 # Make & install kernel
-sudo make -j40 && sudo make -j40 modules_install && sudo make -j40 install
+sudo make -j$(nproc) && sudo make -j$(nproc) modules_install && sudo make -j$(nproc) install
