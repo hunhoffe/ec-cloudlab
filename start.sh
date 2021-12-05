@@ -244,7 +244,7 @@ fi
 disable_swap
 
 # Use mountpoint (if it exists) to set up additional docker image storage
-if test -f "/mydata"; then
+if test -d "/mydata"; then
     configure_docker_storage
 fi
 
