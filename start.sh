@@ -12,6 +12,7 @@ NUM_PRIMARY_ARGS=6
 USAGE=$'Usage:\n\t./start.sh secondary <node_ip> <start_kubernetes>\n\t./start.sh primary <node_ip> <num_workers> <start_kubernetes> <deploy_openwhisk> <num_invokers>'
 
 configure_docker_storage() {
+    sudo mkdir /mydata/docker
     echo -e '{
         "exec-opts": ["native.cgroupdriver=systemd"],
         "log-driver": "json-file",
