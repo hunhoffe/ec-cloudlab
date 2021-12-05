@@ -1,5 +1,3 @@
-
-
 #!/bin/bash
 set -x
 
@@ -17,9 +15,8 @@ fi
 
 # Setup Go Paths
 echo "Setting up Go paths"
-echo "export GOROOT=/usr/local/go" | sudo tee -a ~/.profile
-echo "export GOPATH=$HOME/go" | sudo tee -a ~/.profile
-echo "export PATH=$GOPATH/bin:$GOROOT/bin:$PATH" | sudo tee -a ~/.profile
+echo 'export GOPATH=$HOME/go' | sudo tee -a ~/.profile
+echo 'export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin' | sudo tee -a ~/.profile
 echo 'export GO111MODULE=on' | sudo tee -a ~/.profile
 source ~/.profile
 
