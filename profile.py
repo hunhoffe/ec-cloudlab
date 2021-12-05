@@ -14,8 +14,8 @@ import geni.portal as portal
 import geni.rspec.pg as rspec
 
 # Profile Configuration Constants
-GCM_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+escra-PG0:ec-gcm:0'
-NODE_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+cu-bison-lab-PG0:ec-node'
+GCM_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+escra-PG0:ec-gcm'
+NODE_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+escra-PG0:ec-node'
 NODE_TYPE = 'c6220'
 # Based on how IPs are created below, NUM_WORKERS must be < 10
 
