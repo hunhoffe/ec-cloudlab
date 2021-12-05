@@ -56,6 +56,13 @@ pc.defineParameter("deployOpenWhisk",
                    portal.ParameterType.BOOLEAN,
                    True,
                    longDescription="Use helm to deploy OpenWhisk.")
+pc.defineParameter("numInvokers",
+                   "Number of Invokers",
+                   portal.ParameterType.INTEGER,
+                   0,
+                   advanced=True,
+                   longDescription="Number of OpenWhisk invokers set in the mycluster.yaml file, and number of nodes labelled as Openwhisk invokers. " \
+                           "All nodes which are not invokers will be labelled as OpenWhisk core nodes.")
 params = pc.bindParameters()
 
 # Verify parameters
@@ -65,7 +72,9 @@ if params.tempFileSystemSize < 0 or params.tempFileSystemSize > 200:
 if not params.startKubernetes and params.deployOpenWhisk:
     perr = portal.ParameterWarning("The Kubernetes Cluster must be created in order to deploy OpenWhisk",['startKubernetes'])
     pc.reportError(perr)
-
+if params.numInvokers > params.nodeCount:
+    perr = portal.ParameterWarning("Number of invokers must be less than or equal to the total number of nodes.", ["numInvokers"])
+    pc.reportError(perr)
 pc.verifyParameters()
 request = pc.makeRequestRSpec()
 
@@ -113,9 +122,9 @@ for i in range(1,params.nodeCount + 1):
 for i, node in enumerate(nodes[1:]):
   node.addService(rspec.Execute(shell="bash", command="/local/repository/start.sh secondary 192.168.6.{} true 2>&1 > /local/repository/start.log &".format(
       9 - i, params.startKubernetes)))
-
+  
 # Run start script on GCM
 nodes[0].addService(rspec.Execute(shell="bash", command="/local/repository/start.sh primary 192.168.6.10 {} {} {} {} 2>&1 > /home/ec/start.log".format(
-    params.nodeCount, params.startKubernetes, params.deployOpenWhisk, params.nodeCount)))
+    params.nodeCount, params.startKubernetes, params.deployOpenWhisk, params.numInvokers)))
 
 pc.printRequestRSpec()
