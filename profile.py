@@ -40,7 +40,7 @@ pc.defineParameter("nodeCount",
 # Below two options copy/pasted directly from small-lan experiment on CloudLab
 # Optional ephemeral blockstore
 pc.defineParameter("tempFileSystemSize", "Temporary Filesystem Size",
-                   portal.ParameterType.INTEGER, 0, advanced=True,
+                   portal.ParameterType.INTEGER, 0,
                    longDescription="The size in GB of a temporary file system to mount on each of your " +
                    "nodes. Temporary means that they are deleted when your experiment is terminated. " +
                    "The images provided by the system have small root partitions, so use this option " +
@@ -50,7 +50,6 @@ pc.defineParameter("tempFileSystemSize", "Temporary Filesystem Size",
 # Instead of a size, ask for all available space. 
 pc.defineParameter("tempFileSystemMax",  "Temp Filesystem Max Space",
                     portal.ParameterType.BOOLEAN, False,
-                    advanced=True,
                     longDescription="Instead of specifying a size for your temporary filesystem, " +
                     "check this box to allocate all available disk space. Leave the size above as zero.")
 
@@ -78,13 +77,11 @@ pc.verifyParameters()
 request = pc.makeRequestRSpec()
 
 def add_blockstore(node, name):
-  bs = node.Blockstore("GCM-bs", "/mydata")
-  if params.tempFileSystemSize > 0 or params.tempFileSystemMax:
-    bs = node.Blockstore(name + "-bs", params.tempFileSystemMount)
-    if params.tempFileSystemMax:
-      bs.size = "0GB"
-    else:
-      bs.size = str(params.tempFileSystemSize) + "GB"
+  bs = node.Blockstore(name + "-bs", /mydata)
+  if params.tempFileSystemMax:
+    bs.size = "0GB"
+  else:
+    bs.size = str(params.tempFileSystemSize) + "GB"
   bs.placement = "any"
 
 # Initial setup
