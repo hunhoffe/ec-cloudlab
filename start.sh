@@ -153,6 +153,14 @@ add_cluster_nodes() {
 }
 
 prepare_for_openwhisk() {
+
+    kubectl create namespace openwhisk
+    if [ $? -ne 0 ]; then
+        echo "***Error: Failed to create openwhisk namespace"
+        exit 1
+    fi
+    printf "%s: %s\n" "$(date +"%T.%N")" "Created openwhisk namespace in Kubernetes."
+    
     # Iterate over each node and set the openwhisk role
     # From https://superuser.com/questions/284187/bash-iterating-over-lines-in-a-variable
     NODE_NAMES=$(kubectl get nodes -o name | grep "node-")
@@ -176,19 +184,15 @@ prepare_for_openwhisk() {
 	fi
 	counter=$((counter+1))
     done <<< "$NODE_NAMES"
-    printf "%s: %s\n" "$(date +"%T.%N")" "Labelled all nodes as invoker nodes."
-
-    kubectl create namespace openwhisk
-    if [ $? -ne 0 ]; then
-        echo "***Error: Failed to create openwhisk namespace"
-        exit 1
-    fi
-    printf "%s: %s\n" "$(date +"%T.%N")" "Created openwhisk namespace in Kubernetes."
+    printf "%s: %s\n" "$(date +"%T.%N")" "Labelled all nodes as invoker or core nodes."
     
     sudo cp /local/repository/mycluster.yaml $INSTALL_DIR/openwhisk-deploy-kube/mycluster.yaml
     sudo sed -i.bak "s/REPLACE_ME_WITH_IP/$1/g" $INSTALL_DIR/openwhisk-deploy-kube/mycluster.yaml
     sudo sed -i.bak "s/REPLACE_ME_WITH_COUNT/$3/g" $INSTALL_DIR/openwhisk-deploy-kube/mycluster.yaml
     printf "%s: %s\n" "$(date +"%T.%N")" "Added primary node IP and num invokers to $INSTALL_DIR/openwhisk-deploy-kube/mycluster.yaml"
+    
+    # Had some isues with openwhisk roles not being enforced, trying to fix by adding delay (to allow roles to percolate).
+    sleep 10
 }
 
 deploy_openwhisk() {
