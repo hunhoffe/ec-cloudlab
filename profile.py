@@ -45,14 +45,7 @@ pc.defineParameter("tempFileSystemSize", "Temporary Filesystem Size",
                    "nodes. Temporary means that they are deleted when your experiment is terminated. " +
                    "The images provided by the system have small root partitions, so use this option " +
                    "if you expect you will need more space to build your software packages or store " +
-                   "temporary files.")
-                   
-# Instead of a size, ask for all available space. 
-pc.defineParameter("tempFileSystemMax",  "Temp Filesystem Max Space",
-                    portal.ParameterType.BOOLEAN, False,
-                    longDescription="Instead of specifying a size for your temporary filesystem, " +
-                    "check this box to allocate all available disk space. Leave the size above as zero.")
-
+                   "temporary files. 0 GB indicates maximum size.")
 pc.defineParameter("startKubernetes",
                    "Create Kubernetes cluster",
                    portal.ParameterType.BOOLEAN,
