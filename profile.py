@@ -111,11 +111,11 @@ for i in range(1,params.nodeCount + 1):
 
 # Run start script on worker nodes
 for i, node in enumerate(nodes[1:]):
-  node.addService(rspec.Execute(shell="bash", command="/local/repository/start.sh secondary 192.168.6.{} true > /local/repository/start.log &".format(
+  node.addService(rspec.Execute(shell="bash", command="/local/repository/start.sh secondary 192.168.6.{} true 2>&1 > /local/repository/start.log &".format(
       9 - i, params.startKubernetes)))
 
 # Run start script on GCM
-nodes[0].addService(rspec.Execute(shell="bash", command="/local/repository/start.sh primary 192.168.6.10 {} {} {} {} > /home/ec/start.log".format(
+nodes[0].addService(rspec.Execute(shell="bash", command="/local/repository/start.sh primary 192.168.6.10 {} {} {} {} 2>&1 > /home/ec/start.log".format(
     params.nodeCount, params.startKubernetes, params.deployOpenWhisk, params.nodeCount)))
 
 pc.printRequestRSpec()
