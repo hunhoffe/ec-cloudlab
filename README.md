@@ -13,7 +13,7 @@ On each node, a copy of this repo is available at:
 
 ### GCM Node
 
-Installation specific material is found at ```/home/ec```, including the log from the start script that runs during experiment initialization.
+Installation specific material is found at ```/home/ec```, including the log from the start script that runs during experiment initialization. EC-specific repositories are downloaded manually using the ```gcm_setup.sh``` script and saved to your home directory.
 
 After logging in for the first time, run the ```/local/repository/gcm_setup.sh``` script. In addition to setting some user-specific environment variables, this script will clone ESCRA-related repos to your home directory and also compile ```spdlog``` and ```ec_gcm```.  
 
@@ -38,6 +38,6 @@ To restart OpenWhisk, for instance to deploy after modifying the ```mycluster.ya
 
 ### Worker Nodes
 
-The log from the start script is found in ```/local/repository/start.log```.
+The log from the start script is found in ```/local/repository/start.log```. EC-specific repositories are downloaded manually using the ```node_setup.sh``` script and saved to ```/mydata/ec```.
 
 The EC kernel modules have been installed such as to be reloaded automatically upon reboot. The modules have been placed in ```/lib/modules/4.20.16DC+/kernel/drivers/pci```. To update a module, use ```rmmod``` to remove it. Replace the ```<module_name.ko>``` file in ```/lib/modules/4.20.16DC+/kernel/drivers/pci```, and then use ```insmod``` to insert it. Then, run ```depmod```. Alternatively, for just an update, you can simply replace the file and reboot and node. If you want to remove a module entirely or change the name of the ```.ko``` file, you'll also need to edit the ```/etc/modules``` file to reflect the changes. Optionally, reboot the machine and use ```lsmod``` to ensure your changes are persistent.
