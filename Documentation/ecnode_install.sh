@@ -53,14 +53,12 @@ sudo mv go /usr/local
 
 echo 'export PATH=\"$PATH:/usr/local/go/bin\"' | sudo tee -a /etc/profile
 echo 'export GO111MODULE=on' | sudo tee -a /etc/profile
-go version
 
 # Install gRPC Go
 export GO111MODULE=on
 go get github.com/golang/protobuf/protoc-gen-go
-export PATH="$PATH:$(go env GOPATH)/bin"
-cd ~
-source ~/.profile
+export PATH="$PATH:/usr/local/go/bin"
+go version
 
 # For building the kernel
 cp -v /boot/config-$(uname -r) .config
