@@ -51,10 +51,8 @@ curl -O https://storage.googleapis.com/golang/go1.14.4.linux-amd64.tar.gz
 tar -xvf go1.14.4.linux-amd64.tar.gz
 sudo mv go /usr/local
 
-echo 'export GOPATH=$HOME/go' | sudo tee -a ~/.profile
-echo 'export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin' | sudo tee -a ~/.profile
 echo 'PATH="$PATH:/usr/local/go/bin"' | sudo tee -a /etc/environment
-source ~/.profile
+echo 'export GO111MODULE=on' | sudo tee -a /etc/environment
 go version
 
 # Install gRPC Go
