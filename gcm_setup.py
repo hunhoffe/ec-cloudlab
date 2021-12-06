@@ -23,6 +23,9 @@ echo 'export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin' | sudo tee -a ~/.profile
 echo 'export GO111MODULE=on' | sudo tee -a ~/.profile
 source ~/.profile
 
+# EC Deployer assumes location for kube config
+cp /home/ec/.kube/config ~/.kube/config
+
 # Setup Mount Directory Contents
 echo "Cloning contents into $INSTALL_DIR"
 cd $INSTALL_DIR
