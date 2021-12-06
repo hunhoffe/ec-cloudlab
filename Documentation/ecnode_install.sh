@@ -53,6 +53,7 @@ sudo mv go /usr/local
 
 echo 'export GOPATH=$HOME/go' | sudo tee -a ~/.profile
 echo 'export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin' | sudo tee -a ~/.profile
+echo 'PATH="$PATH:/usr/local/go/bin"' | sudo tee -a /etc/environment
 source ~/.profile
 go version
 
