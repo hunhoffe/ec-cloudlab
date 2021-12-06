@@ -67,7 +67,7 @@ sudo apt-get install -y gcc-8 g++-8
 curl -O https://storage.googleapis.com/golang/go1.14.4.linux-amd64.tar.gz
 tar -xvf go1.14.4.linux-amd64.tar.gz
 sudo mv go /usr/local
-go version
+echo 'PATH="$PATH:/usr/local/go/bin"' | sudo tee -a /etc/environment
 
 # Install Python3
 sudo add-apt-repository ppa:deadsnakes/ppa
