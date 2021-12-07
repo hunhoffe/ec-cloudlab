@@ -53,6 +53,9 @@ sudo mv go /usr/local
 
 echo 'export PATH=\"$PATH:/usr/local/go/bin\"' | sudo tee -a /etc/profile
 echo 'export GO111MODULE=on' | sudo tee -a /etc/profile
+export PATH=\"$PATH:/usr/local/go/bin\"
+export GO111MODULE=on
+go version
 
 # Install gRPC Go
 export GO111MODULE=on
