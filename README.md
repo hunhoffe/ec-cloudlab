@@ -46,4 +46,4 @@ The EC kernel modules have been installed such as to be reloaded automatically u
 
 Follow the profile instructions to run the GCM and node setup scripts.
 
-Additional instructions found [here](documentation/escra_setup.md).
+Additional instructions found [here](Documentation/escra_setup.md).
