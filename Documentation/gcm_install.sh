@@ -69,6 +69,8 @@ tar -xvf go1.14.4.linux-amd64.tar.gz
 sudo mv go /usr/local
 echo 'export PATH=\"$PATH:/usr/local/go/bin\"' | sudo tee -a /etc/profile
 echo 'export GO111MODULE=on' | sudo tee -a /etc/profile
+source ~/.profile
+go version
 
 # Install Python3
 sudo add-apt-repository ppa:deadsnakes/ppa
