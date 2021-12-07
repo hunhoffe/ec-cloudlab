@@ -17,6 +17,8 @@ Installation specific material is found at ```/home/ec```, including the log fro
 
 After logging in for the first time, run the ```/local/repository/gcm_setup.sh``` script. In addition to setting some user-specific environment variables, this script will clone ESCRA-related repos to your home directory and also compile ```spdlog``` and ```ec_gcm```.  
 
+```kubectl``` is setup, so if you run ```kubectl get nodes``` you should see expected output.
+
 #### GCM Node - OpenWhisk
 
 To see information on OpenWhisk pods, make sure to specify the namespace as openwhisk. To remove OpenWhisk,
