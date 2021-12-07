@@ -41,3 +41,9 @@ To restart OpenWhisk, for instance to deploy after modifying the ```mycluster.ya
 The log from the start script is found in ```/local/repository/start.log```. EC-specific repositories are downloaded manually using the ```node_setup.sh``` script and saved to ```/mydata/ec```.
 
 The EC kernel modules have been installed such as to be reloaded automatically upon reboot. The modules have been placed in ```/lib/modules/4.20.16DC+/kernel/drivers/pci```. To update a module, use ```rmmod``` to remove it. Replace the ```<module_name.ko>``` file in ```/lib/modules/4.20.16DC+/kernel/drivers/pci```, and then use ```insmod``` to insert it. Then, run ```depmod```. Alternatively, for just an update, you can simply replace the file and reboot and node. If you want to remove a module entirely or change the name of the ```.ko``` file, you'll also need to edit the ```/etc/modules``` file to reflect the changes. Optionally, reboot the machine and use ```lsmod``` to ensure your changes are persistent.
+
+### Running ESCRA
+
+Follow the profile instructions to run the GCM and node setup scripts.
+
+Additional instructions found [here](documentation/escra_setup.md).
