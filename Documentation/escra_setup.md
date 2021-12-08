@@ -33,7 +33,7 @@ go run main.go
 
 In the first GCM node terminal, run:
 ```
-cd ~/Distributed-Containers/ec_gcm
+cd /mydata/ec/Distributed-Containers/ec_gcm
 ./ec_gcm tests/app_def.json
 ```
 
@@ -43,7 +43,7 @@ The file ```app_def.json```, in this case, does not configure a specific applica
 
 In the second GCM node terminal, select a json file representing your application. Then run the below, replacing the file in the second command with the application file:
 ```
-cd ~/Distributed-Containers/ec_deployer
+cd /mydata/ec/Distributed-Containers/ec_deployer
 go run main.go -f <app_deploy_file>.json
 ```
 
@@ -55,11 +55,6 @@ If you get a "no revision" or github error, try the following.
 Run this:
 ```
 go env -w GO111MODULE=on
-```
-
-Try this:
-```
-git config --global --add url."git@github.com:".insteadOf "https://github.com/"
 ```
 
 Ensure your GitHub SSH key is properly configured by running this test:
