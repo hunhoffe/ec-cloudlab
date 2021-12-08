@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INSTALL_DIR=~
+INSTALL_DIR=/mydata
 EC_BRANCH="ftr-serverless"
 
 # Check and see if github SSH key is set up for current user
@@ -27,8 +27,11 @@ source ~/.profile
 cp /home/ec/.kube/config ~/.kube/config
 
 # Setup Mount Directory Contents
-echo "Cloning contents into $INSTALL_DIR"
-cd $INSTALL_DIR
+echo "Cloning contents into $INSTALL_DIR/ec"
+sudo mkdir $INSTALL_DIR/ec
+sudo chown $USER $INSTALL_DIR/ec
+sudo chmod u+rwx $INSTALL_DIR/ec
+cd $INSTALL_DIR/ec
 git clone git@github.com:gregcusack/Distributed-Containers.git
 cd Distributed-Containers
 git checkout --track origin/$EC_BRANCH
