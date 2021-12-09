@@ -18,7 +18,8 @@ import geni.rspec.pg as rspec
 GCM_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+escra-PG0:ec-gcm'
 NODE_IMAGES = {
   'c6220': 'urn:publicid:IDN+apt.emulab.net+image+escra-PG0:ec-node',
-  'c220g5': 'urn:publicid:IDN+wisc.cloudlab.us+image+escra-PG0:ec-node-c220g5', 
+  'c220g5': 'urn:publicid:IDN+wisc.cloudlab.us+image+escra-PG0:ec-node-c220g5',
+  'rs620': 'urn:publicid:IDN+cloudlab.umass.edu+image+escra-PG0:ec-node-rs620',
 }
 BANDWIDTH = 10000000
 
