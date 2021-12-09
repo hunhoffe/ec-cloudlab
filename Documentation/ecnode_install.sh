@@ -51,17 +51,9 @@ curl -O https://storage.googleapis.com/golang/go1.14.4.linux-amd64.tar.gz
 tar -xvf go1.14.4.linux-amd64.tar.gz
 sudo mv go /usr/local
 
-echo 'export PATH=\"$PATH:/usr/local/go/bin\"' | sudo tee -a /etc/profile
-echo 'export GO111MODULE=on' | sudo tee -a /etc/profile
-export PATH=\"$PATH:/usr/local/go/bin\"
-export GO111MODULE=on
-go version
-
 # Install gRPC Go
 export GO111MODULE=on
 go get github.com/golang/protobuf/protoc-gen-go
-export PATH="$PATH:/usr/local/go/bin"
-go version
 
 # For building the kernel
 cp -v /boot/config-$(uname -r) .config
