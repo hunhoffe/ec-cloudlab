@@ -29,3 +29,8 @@ to the node & ssh agent (don't worry, your home directory won't be saved so your
 * Run the ```install_modules.sh``` script. This will compile and install the kernel modules in a way that is persistent
 * Use vim or similar to edit ```/etc/environment```. Add ```/usr/local/go/bin``` to ```PATH```.
 * Use Cloudlab to create the image!
+
+## Support for Additional Architectures
+
+* Create a worker node image as described above using the hardware type desired
+* Add the image (as value) and the node hardware type (as key) to the ```NODE_IMAGES``` dictionary in ```profile.py```
