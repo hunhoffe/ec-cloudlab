@@ -103,13 +103,14 @@ iface = node.addInterface("if1")
 iface.addAddress(rspec.IPv4Address("192.168.6.10", "255.255.255.0"))
 lan.addInterface(iface)
 
-# Creat worker nodes
+# Create worker nodes, starting with index at 1 to get node1, node2, ...
 for i in range(1,params.nodeCount + 1):
   # Create node
   name = "node-{}".format(i)
   node = request.RawPC(name)
   node.disk_image = NODE_IMAGES.get(params.nodeType)
   node.hardware_type = params.nodeType
+  
   nodes.append(node)
   
   # Add interface
@@ -122,7 +123,7 @@ for i in range(1,params.nodeCount + 1):
 
 # Run start script on worker nodes
 for i, node in enumerate(nodes[1:]):
-  node.addService(rspec.Execute(shell="bash", command="/local/repository/start.sh secondary 192.168.6.{} true 2>&1 > /local/repository/start.log &".format(
+  node.addService(rspec.Execute(shell="bash", command="/local/repository/start.sh secondary 192.168.6.{} {} 2>&1 > /local/repository/start.log &".format(
       9 - i, params.startKubernetes)))
   
 # Run start script on GCM
