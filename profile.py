@@ -3,7 +3,7 @@ Instructions:
 Once all nodes have startup state 'finished', your experiment is ready (this may take >10 minutes). 
 To download EC-specific github repos, install your github ssh key at all nodes. 
 On the GCM run the gcm_setup.py script. On the workers run the node_setup.py script. 
-On both, you'll need to run "source ~/.profile" to populate environment variables.
+On both, you'll need to run "source ~/.bashrc" (just once) to populate environment variables.
 If you suspect something has gone awry, the first place to look is in the start.log file in /local/repository or /home/ec.
 """
 
@@ -15,20 +15,20 @@ import geni.portal as portal
 import geni.rspec.pg as rspec
 
 # Profile Configuration Constants
-GCM_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+escra-PG0:ec-gcm'
-NODE_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+escra-PG0:ec-node'
-NODE_TYPE = 'c6220'
-# Based on how IPs are created below, NUM_WORKERS must be < 10
-
+GCM_IMAGES = 'urn:publicid:IDN+apt.emulab.net+image+escra-PG0:ec-gcm',
+NODE_IMAGES = 
+  'c6220': 'urn:publicid:IDN+apt.emulab.net+image+escra-PG0:ec-node',
+  'c220g5': 'urn:publicid:IDN+wisc.cloudlab.us+image+escra-PG0:ec-node-c220g5', 
+}
 BANDWIDTH = 10000000
 
 # Set up parameters
 pc = portal.Context()
 pc.defineParameter("nodeType", 
-                   "Node Hardware Type (only c6220 supported)",
+                   "Node Hardware Type",
                    portal.ParameterType.STRING, 
                    NODE_TYPE,
-                   legalValues=[NODE_TYPE],
+                   legalValues=NODE_IMAGES.keys(),
                    longDescription="A specific hardware type to use for all nodes. TODO: add support for c8220 nodes.")
 pc.defineParameter("nodeCount", 
                    "Number of worker nodes",
@@ -107,7 +107,7 @@ for i in range(1,params.nodeCount + 1):
   # Create node
   name = "node-{}".format(i)
   node = request.RawPC(name)
-  node.disk_image = NODE_IMAGE
+  node.disk_image = NODE_IMAGE.get(params.nodeType)
   node.hardware_type = params.nodeType
   nodes.append(node)
   
