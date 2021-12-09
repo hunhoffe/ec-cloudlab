@@ -107,7 +107,7 @@ for i in range(1,params.nodeCount + 1):
   # Create node
   name = "node-{}".format(i)
   node = request.RawPC(name)
-  node.disk_image = NODE_IMAGE.get(params.nodeType)
+  node.disk_image = NODE_IMAGES.get(params.nodeType)
   node.hardware_type = params.nodeType
   nodes.append(node)
   
