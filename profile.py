@@ -73,7 +73,7 @@ if params.tempFileSystemSize < 0 or params.tempFileSystemSize > 200:
 if not params.startKubernetes and params.deployOpenWhisk:
     perr = portal.ParameterWarning("The Kubernetes Cluster must be created in order to deploy OpenWhisk",['startKubernetes'])
     pc.reportError(perr)
-if params.numInvokers > params.nodeCount:
+if params.deployOpenWhisk and params.numInvokers > params.nodeCount:
     perr = portal.ParameterWarning("Number of invokers must be less than or equal to the total number of nodes.", ["numInvokers"])
     pc.reportError(perr)
 pc.verifyParameters()
