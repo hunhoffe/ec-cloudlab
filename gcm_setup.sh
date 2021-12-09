@@ -21,10 +21,10 @@ git config --global --add url."git@github.com:".insteadOf "https://github.com/"
 
 # Setup Go Paths
 echo "Setting up Go paths"
-echo 'export GOPATH=$HOME/go' | sudo tee -a ~/.profile
-echo 'export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin' | sudo tee -a ~/.profile
-echo 'export GO111MODULE=on' | sudo tee -a ~/.profile
-source ~/.profile
+echo 'export GOPATH=$HOME/go' | sudo tee -a ~/.bashrc
+echo 'export PATH=$PATH:$GOPATH/bin' | sudo tee -a ~/.bashrc
+echo 'export GO111MODULE=on' | sudo tee -a ~/.bashrc
+source ~/.bashrc
 
 # EC Deployer assumes location for kube config
 cp /home/ec/.kube/config ~/.kube/config
