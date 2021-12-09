@@ -4,7 +4,7 @@ Once all nodes have startup state 'finished', your experiment is ready (this may
 To download EC-specific github repos, install your github ssh key at all nodes. 
 On the GCM run the gcm_setup.py script. On the workers run the node_setup.py script. 
 On both, you'll need to run "source ~/.bashrc" (just once) to populate environment variables.
-If you suspect something has gone awry, the first place to look is in the start.log file in /local/repository or /home/ec.
+If you suspect something has gone awry, the first place to look is in the start.log file in /local/repository.
 """
 
 import time
