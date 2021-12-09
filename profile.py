@@ -15,7 +15,7 @@ import geni.portal as portal
 import geni.rspec.pg as rspec
 
 # Profile Configuration Constants
-GCM_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+escra-PG0:ec-gcm'
+GCM_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+escra-PG0:ec-gcm:3'
 NODE_IMAGES = {
   'c6220': 'urn:publicid:IDN+apt.emulab.net+image+escra-PG0:ec-node',
   'c220g5': 'urn:publicid:IDN+wisc.cloudlab.us+image+escra-PG0:ec-node-c220g5',
