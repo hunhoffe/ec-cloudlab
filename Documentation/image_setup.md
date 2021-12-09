@@ -16,7 +16,7 @@ IP addresses should be configured as follows:
 Below are instructions for creating an ECM Node image:
 * Start with an Ubuntu 18.04 image (```urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD```)
 * Run the ```gcm_install.sh``` script. You may need to press the 'enter' key a few times while it runs.
-* Use vim or similar to edit /etc/environment. Add ```/usr/local/go/bin``` to ```PATH```.
+* Use vim or similar to edit ```/etc/environment```. Add ```/usr/local/go/bin``` to ```PATH```.
 * Use Cloudlab to create the image!
 
 ## Worker Node
@@ -27,5 +27,5 @@ to the node & ssh agent (don't worry, your home directory won't be saved so your
 * Run the ```ecnode_install.sh``` script. This will install dependencies, compile the kernel, and install the kernel
 * Reboot the node
 * Run the ```install_modules.sh``` script. This will compile and install the kernel modules in a way that is persistent
-* Use vim or similar to edit /etc/environment. Add ```/usr/local/go/bin``` to ```PATH```.
+* Use vim or similar to edit ```/etc/environment```. Add ```/usr/local/go/bin``` to ```PATH```.
 * Use Cloudlab to create the image!
