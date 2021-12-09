@@ -27,7 +27,7 @@ pc = portal.Context()
 pc.defineParameter("nodeType", 
                    "Node Hardware Type",
                    portal.ParameterType.STRING, 
-                   NODE_TYPE,
+                   NODE_IMAGES.keys()[0],
                    legalValues=NODE_IMAGES.keys(),
                    longDescription="A specific hardware type to use for all nodes. TODO: add support for c8220 nodes.")
 pc.defineParameter("nodeCount", 
