@@ -67,8 +67,6 @@ sudo apt-get install -y gcc-8 g++-8
 curl -O https://storage.googleapis.com/golang/go1.14.4.linux-amd64.tar.gz
 tar -xvf go1.14.4.linux-amd64.tar.gz
 sudo mv go /usr/local
-echo 'export PATH=\"$PATH:/usr/local/go/bin\"' | sudo tee -a /etc/profile
-echo 'export GO111MODULE=on' | sudo tee -a /etc/profile
 export PATH=\"$PATH:/usr/local/go/bin\"
 export GO111MODULE=on
 go version
