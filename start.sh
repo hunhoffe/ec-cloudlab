@@ -89,7 +89,7 @@ setup_primary() {
     sudo mkdir $INSTALL_DIR/.kube
     sudo cp /etc/kubernetes/admin.conf $INSTALL_DIR/.kube/config
     sudo chown -R $(id -u):$(id -g) $INSTALL_DIR/.kube
-    sudo chmod g+rw $INSTALL_DIR/.kube/config
+    sudo chmod -R g+rw $INSTALL_DIR/.kube/config
     export KUBECONFIG=$INSTALL_DIR/.kube/config
     echo "KUBECONFIG=$INSTALL_DIR/.kube/config" | sudo tee -a /etc/environment
 
