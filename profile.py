@@ -30,7 +30,7 @@ pc.defineParameter("nodeType",
                    portal.ParameterType.STRING, 
                    NODE_IMAGES.keys()[0],
                    legalValues=NODE_IMAGES.keys(),
-                   longDescription="A specific hardware type to use for all nodes. TODO: add support for c8220 nodes.")
+                   longDescription="A specific hardware type to use for all nodes.")
 pc.defineParameter("nodeCount", 
                    "Number of worker nodes",
                    portal.ParameterType.INTEGER, 
