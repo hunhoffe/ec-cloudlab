@@ -98,11 +98,13 @@ sudo mkdir $INSTALL_DIR
 sudo chgrp -R $EC_GROUP $INSTALL_DIR
 sudo chmod -R o+rw $INSTALL_DIR
 
-# Download openwhisk-deploy-kube repo
-sudo git clone https://github.com/apache/openwhisk-deploy-kube.git $INSTALL_DIR/openwhisk-deploy-kube
-cd $INSTALL_DIR
+# Download openwhisk-deploy-kube repo - customized to this deployment
+sudo git clone https://github.com/hunhoffe/openwhisk-deploy-kube.git $INSTALL_DIR/openwhisk-deploy-kube
+cd $INSTALL_DIR/openwhisk-deploy-kube
+git checkout --track origin/escra
 
 # Install casablanca
+cd $INSTALL_DIR
 git clone https://github.com/microsoft/cpprestsdk.git casablanca
 cd casablanca
 mkdir build.debug
