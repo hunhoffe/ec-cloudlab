@@ -26,6 +26,7 @@ run the following commands:
 ```
     $ cd /home/ec/openwhisk-deploy-kube
     $ helm uninstall owdev -n openwhisk
+    $ kubectl delete namespace openwhisk
 ```
 After the helm uninstall, there may be orphan action containers which should be removed via ```kubectl```.
 
@@ -35,7 +36,7 @@ identical to the one found [here](mycluster.yaml), except populated with the num
 To restart OpenWhisk, for instance to deploy after modifying the ```mycluster.yaml``` file, run the following helm command:
 ```
     $ cd /home/ec/openwhisk-deploy-kube
-    $ helm install owdev ./helm/openwhisk -n openwhisk -f mycluster.yaml
+    $ helm install owdev ./helm/openwhisk --create-namespace -n openwhisk -f mycluster.yaml
 ```
 
 ### Worker Nodes
