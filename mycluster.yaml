@@ -15,3 +15,14 @@ invoker:
     impl: "kubernetes"
     kubernetes:
       replicaCount: REPLACE_ME_WITH_COUNT
+
+# Used to define pod affinity and anti-affinity for the Kubernetes scheduler.
+# If affinity.enabled is true, then all of the deployments for the OpenWhisk
+# microservices will use node and pod affinity directives to inform the
+# scheduler how to best distribute the pods on the available nodes in the cluster.
+affinity:
+  enabled: true
+  coreNodeLabel: core
+  edgeNodeLabel: core
+  invokerNodeLabel: core
+  providerNodeLabel: core
