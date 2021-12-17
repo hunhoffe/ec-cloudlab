@@ -12,7 +12,7 @@ dmesg -wH
 In a second of the worker terminals for each worker run:
 ```
 cd /mydata/ec/Distributed-Containers/third_party/cadvisor
-./cadvisor
+sudo ./cadvisor
 ```
 
 ### Run EC Agents on Worker Nodes
