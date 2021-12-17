@@ -105,7 +105,6 @@ nodes.append(node)
 # Add controller interface
 iface = node.addInterface("if1")
 iface.addAddress(rspec.IPv4Address("192.168.6.10", "255.255.255.0"))
-iface.component_id = "eth1"
 lan.addInterface(iface)
 
 # Create worker nodes, starting with index at 1 to get node1, node2, ...
@@ -121,7 +120,6 @@ for i in range(1,params.workerCount + 1):
   # Add interface
   iface = node.addInterface("if1")
   iface.addAddress(rspec.IPv4Address("192.168.6.{}".format(10 - i), "255.255.255.0"))
-  iface.component_id = "eth1"
   lan.addInterface(iface)
   
   # Add extra storage space
