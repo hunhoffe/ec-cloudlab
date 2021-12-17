@@ -75,7 +75,7 @@ if params.tempFileSystemSize < 0 or params.tempFileSystemSize > 200:
 if not params.startKubernetes and params.deployOpenWhisk:
     perr = portal.ParameterWarning("The Kubernetes Cluster must be created in order to deploy OpenWhisk",['startKubernetes'])
     pc.reportError(perr)
-if params.deployOpenWhisk and params.numOWCore >= params.nodeCount:
+if params.deployOpenWhisk and params.numOWCore >= params.workerCount:
     perr = portal.ParameterWarning("Number of core nodes must be less than the total number of worker nodes - at least one worker node must be left to be an invoker node", ["numOWCore"])
     pc.reportError(perr)
 if params.deployOpenWhisk and params.numOWCore <= 0:
@@ -109,7 +109,7 @@ iface.component_id = "escra"
 lan.addInterface(iface)
 
 # Create worker nodes, starting with index at 1 to get node1, node2, ...
-for i in range(1,params.nodeCount + 1):
+for i in range(1,params.workerCount + 1):
   # Create node
   name = "node-{}".format(i)
   node = request.RawPC(name)
@@ -134,6 +134,6 @@ for i, node in enumerate(nodes[1:]):
   
 # Run start script on GCM
 nodes[0].addService(rspec.Execute(shell="bash", command="/local/repository/start.sh primary 192.168.6.10 {} {} {} {} 2>&1 > /local/repository/start.log".format(
-    params.nodeCount, params.startKubernetes, params.deployOpenWhisk, params.nodeCount - params.numOWCore)))
+    params.workerCount, params.startKubernetes, params.deployOpenWhisk, params.workerCount - params.numOWCore)))
 
 pc.printRequestRSpec()
