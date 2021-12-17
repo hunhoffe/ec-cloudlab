@@ -78,7 +78,7 @@ if not params.startKubernetes and params.deployOpenWhisk:
 if params.deployOpenWhisk and params.numOWCore >= params.nodeCount:
     perr = portal.ParameterWarning("Number of core nodes must be less than the total number of worker nodes - at least one worker node must be left to be an invoker node", ["numOWCore"])
     pc.reportError(perr)
-if params.deployOpenWhisk and params.numOWCore <= 0 params.nodeCount:
+if params.deployOpenWhisk and params.numOWCore <= 0:
     perr = portal.ParameterWarning("Number of core nodes must be 1 or more to deploy OpenWhisk.", ["numOWCore"])
     pc.reportError(perr)
 pc.verifyParameters()
