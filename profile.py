@@ -32,8 +32,8 @@ pc.defineParameter("nodeType",
                    NODE_IMAGES.keys()[0],
                    legalValues=NODE_IMAGES.keys(),
                    longDescription="A specific hardware type to use for all nodes.")
-pc.defineParameter("nodeCount", 
-                   "Number of worker nodes",
+pc.defineParameter("workerCount", 
+                   "Number of ESCRA worker nodes",
                    portal.ParameterType.INTEGER, 
                    3,
                    min=1,
@@ -59,13 +59,13 @@ pc.defineParameter("deployOpenWhisk",
                    portal.ParameterType.BOOLEAN,
                    True,
                    longDescription="Use helm to deploy OpenWhisk.")
-pc.defineParameter("numInvokers",
-                   "Number of Invokers",
+pc.defineParameter("numOWCore",
+                   "Number of worker nodes to run OpenWhisk core on",
                    portal.ParameterType.INTEGER,
-                   2,
+                   1,
                    advanced=True,
-                   longDescription="Number of OpenWhisk invokers set in the mycluster.yaml file, and number of nodes labelled as Openwhisk invokers. " \
-                           "All nodes which are not invokers will be labelled as OpenWhisk core nodes.")
+                   longDescription="Number of OpenWhisk core nodes. All other nodes will be labelled as invoker nodes" \
+                           " which means they will run user functions.")
 params = pc.bindParameters()
 
 # Verify parameters
@@ -75,8 +75,11 @@ if params.tempFileSystemSize < 0 or params.tempFileSystemSize > 200:
 if not params.startKubernetes and params.deployOpenWhisk:
     perr = portal.ParameterWarning("The Kubernetes Cluster must be created in order to deploy OpenWhisk",['startKubernetes'])
     pc.reportError(perr)
-if params.deployOpenWhisk and params.numInvokers > params.nodeCount:
-    perr = portal.ParameterWarning("Number of invokers must be less than or equal to the total number of nodes.", ["numInvokers"])
+if params.deployOpenWhisk and params.numOWCore >= params.nodeCount:
+    perr = portal.ParameterWarning("Number of core nodes must be less than the total number of worker nodes - at least one worker node must be left to be an invoker node", ["numOWCore"])
+    pc.reportError(perr)
+if params.deployOpenWhisk and params.numOWCore <= 0 params.nodeCount:
+    perr = portal.ParameterWarning("Number of core nodes must be 1 or more to deploy OpenWhisk.", ["numOWCore"])
     pc.reportError(perr)
 pc.verifyParameters()
 request = pc.makeRequestRSpec()
@@ -102,6 +105,7 @@ nodes.append(node)
 # Add controller interface
 iface = node.addInterface("if1")
 iface.addAddress(rspec.IPv4Address("192.168.6.10", "255.255.255.0"))
+iface.component_id = "escra"
 lan.addInterface(iface)
 
 # Create worker nodes, starting with index at 1 to get node1, node2, ...
@@ -117,6 +121,7 @@ for i in range(1,params.nodeCount + 1):
   # Add interface
   iface = node.addInterface("if1")
   iface.addAddress(rspec.IPv4Address("192.168.6.{}".format(10 - i), "255.255.255.0"))
+  iface.component_id = "escra"
   lan.addInterface(iface)
   
   # Add extra storage space
@@ -129,6 +134,6 @@ for i, node in enumerate(nodes[1:]):
   
 # Run start script on GCM
 nodes[0].addService(rspec.Execute(shell="bash", command="/local/repository/start.sh primary 192.168.6.10 {} {} {} {} 2>&1 > /local/repository/start.log".format(
-    params.nodeCount, params.startKubernetes, params.deployOpenWhisk, params.numInvokers)))
+    params.nodeCount, params.startKubernetes, params.deployOpenWhisk, params.nodeCount - params.numOWCore)))
 
 pc.printRequestRSpec()
