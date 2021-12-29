@@ -9,7 +9,7 @@ NUM_MIN_ARGS=3
 PRIMARY_ARG="primary"
 SECONDARY_ARG="secondary"
 NUM_PRIMARY_ARGS=6
-USAGE=$'Usage:\n\t./start.sh secondary <node_ip> <start_kubernetes>\n\t./start.sh primary <node_ip> <num_workers> <start_kubernetes> <deploy_openwhisk> <num_invokers>'
+USAGE=$'Usage:\n\t./start.sh secondary <node_ip> <start_kubernetes>\n\t./start.sh primary <node_ip> <num_core> <start_kubernetes> <deploy_openwhisk> <num_invokers>'
 
 configure_docker_storage() {
     printf "%s: %s\n" "$(date +"%T.%N")" "Configuring docker storage"
@@ -164,21 +164,21 @@ prepare_for_openwhisk() {
     # Iterate over each node and set the openwhisk role
     # From https://superuser.com/questions/284187/bash-iterating-over-lines-in-a-variable
     NODE_NAMES=$(kubectl get nodes -o name | grep "node-")
-    CORE_NODES=$(($2-$3))
+    INVOKER_NODES=$(($2-$3))
     counter=0
     while IFS= read -r line; do
-	if [ $counter -lt $CORE_NODES ] ; then
-	    printf "%s: %s\n" "$(date +"%T.%N")" "Labelled ${line:5} as openwhisk core node"
-	    kubectl label nodes ${line:5} openwhisk-role=core
+	if [ $counter -lt $INVOKER_NODES ] ; then
+	    printf "%s: %s\n" "$(date +"%T.%N")" "Labelled ${line:5} as openwhisk invoker node"
+	    kubectl label nodes ${line:5} openwhisk-role=invoker
             if [ $? -ne 0 ]; then
                 echo "***Error: Failed to set openwhisk role to invoker on ${line:5}."
                 exit -1
             fi
         else
-	    printf "%s: %s\n" "$(date +"%T.%N")" "Labelled ${line:5} as openwhisk invoker node"
-            kubectl label nodes ${line:5} openwhisk-role=invoker
+	    printf "%s: %s\n" "$(date +"%T.%N")" "Labelled ${line:5} as openwhisk core node"
+            kubectl label nodes ${line:5} openwhisk-role=core
             if [ $? -ne 0 ]; then
-                echo "***Error: Failed to set openwhisk role to invoker on ${line:5}."
+                echo "***Error: Failed to set openwhisk role to core on ${line:5}."
                 exit -1
             fi
 	fi
@@ -307,7 +307,7 @@ if [ $3 -lt $6 ] ; then
     exit -1
 fi
 
-# Prepare cluster to deploy OpenWhisk, takes IP and node num and num invokers
+# Prepare cluster to deploy OpenWhisk, takes IP and node num and num core
 prepare_for_openwhisk $2 $3 $6
 
 # Deploy OpenWhisk via Helm
