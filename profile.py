@@ -15,12 +15,12 @@ import geni.portal as portal
 import geni.rspec.pg as rspec
 
 # Profile Configuration Constants
-GCM_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+escra-PG0:ec-gcm:4'
+GCM_IMAGE = 'urn:publicid:IDN+apt.emulab.net+image+escra-PG0:gcm:0'
 NODE_IMAGES = {
-  'c6220': 'urn:publicid:IDN+apt.emulab.net+image+escra-PG0:ec-node-c6220',
-  'c220g5': 'urn:publicid:IDN+wisc.cloudlab.us+image+escra-PG0:ec-node-c220g5',
-  'c220g2': 'urn:publicid:IDN+wisc.cloudlab.us+image+escra-PG0:ec-node-c220g2',
-  'rs620': 'urn:publicid:IDN+cloudlab.umass.edu+image+escra-PG0:ec-node-rs620',
+  'c6220': 'urn:publicid:IDN+apt.emulab.net+image+escra-PG0:ec-node-c6220:0',
+  'c220g5': 'urn:publicid:IDN+wisc.cloudlab.us+image+escra-PG0:ec-node-c220g5:0',
+  'c220g2': 'urn:publicid:IDN+wisc.cloudlab.us+image+escra-PG0:ec-node-c220g2:0',
+  'rs620': 'urn:publicid:IDN+cloudlab.umass.edu+image+escra-PG0:ec-node-rs620:0',
 }
 BANDWIDTH = 10000000
 
