@@ -14,6 +14,7 @@ USAGE=$'Usage:\n\t./start.sh secondary <node_ip> <start_kubernetes>\n\t./start.s
 
 configure_worker_interface() {
   # Takes IP address as argument
+  # Source: https://docs.rackspace.com/support/how-to/identifying-network-interfaces-on-linux/
   INTERFACE=$(ip -4 -o a | grep "$1" | cut -d ' ' -f 2,7 | cut -d '/' -f 1 | cut -d ' ' -f 1)
   sudo ip link set dev $INTERFACE down
   sudo ip link set $INTERFACE name $ESCRA_INTERFACE
