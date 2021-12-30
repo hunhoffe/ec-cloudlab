@@ -291,6 +291,11 @@ if [ $# -ne $NUM_PRIMARY_ARGS ]; then
     exit -1
 fi
 
+# Fix permissions in /home/ec on the GCM node
+MY_USER=($USER)
+echo $MY_USER
+sudo chown -R $MY_USER: /home/ec/
+
 # Exit early if we don't need to start Kubernetes
 if [ "$4" = "False" ]; then
     printf "%s: %s\n" "$(date +"%T.%N")" "Start Kubernetes is $4, done!"
