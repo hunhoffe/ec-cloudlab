@@ -3,6 +3,7 @@
 set -x
 
 BASE_IP="192.168.6."
+ESCRA_INTERFACE="escra"
 SECONDARY_PORT=3000
 INSTALL_DIR=/home/ec
 NUM_MIN_ARGS=3
@@ -10,6 +11,14 @@ PRIMARY_ARG="primary"
 SECONDARY_ARG="secondary"
 NUM_PRIMARY_ARGS=6
 USAGE=$'Usage:\n\t./start.sh secondary <node_ip> <start_kubernetes>\n\t./start.sh primary <node_ip> <num_core> <start_kubernetes> <deploy_openwhisk> <num_invokers>'
+
+configure_worker_interface() {
+  # Takes IP address as argument
+  INTERFACE=$(ip -4 -o a | grep "$1" | cut -d ' ' -f 2,7 | cut -d '/' -f 1 | cut -d ' ' -f 1)
+  sudo ip link set dev $INTERFACE down
+  sudo ip link set $INTERFACE name $ESCRA_INTERFACE
+  sudo ip link set dev $ESCRA_INTERFACE up
+}
 
 configure_docker_storage() {
     printf "%s: %s\n" "$(date +"%T.%N")" "Configuring docker storage"
@@ -269,7 +278,7 @@ if [ $1 == $SECONDARY_ARG ] ; then
         printf "%s: %s\n" "$(date +"%T.%N")" "Start Kubernetes is $3, done!"
         exit 0
     fi
-
+    configure_worker_interface $2
     setup_secondary $2
     exit 0
 fi
