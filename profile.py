@@ -39,11 +39,21 @@ pc.defineParameter("workerCount",
                    min=1,
                    max=9,
                    longDescription="Number of worker (non-GCM) nodes in the experiment. It is recommended that at least 3 be used.")
+pc.defineParameter("owNodes", 
+                   "Number of OpenWhisk infrastructure nodes",
+                   portal.ParameterType.INTEGER, 
+                   0,
+                   min=0,
+                   max=9,
+                   longDescription="Number of nodes to run OpenWhisk infrastructure on. If zero, OpenWhisk will NOT be deployed. If >1 OpenWhisk will be deployed")
 
 # Below two options copy/pasted directly from small-lan experiment on CloudLab
 # Optional ephemeral blockstore
-pc.defineParameter("tempFileSystemSize", "Temporary Filesystem Size",
-                   portal.ParameterType.INTEGER, 0,
+pc.defineParameter("tempFileSystemSize", 
+                   "Temporary Filesystem Size",
+                   portal.ParameterType.INTEGER, 
+                   0,
+                   advanced=True,
                    longDescription="The size in GB of a temporary file system to mount on each of your " +
                    "nodes. Temporary means that they are deleted when your experiment is terminated. " +
                    "The images provided by the system have small root partitions, so use this option " +
@@ -53,33 +63,19 @@ pc.defineParameter("startKubernetes",
                    "Create Kubernetes cluster",
                    portal.ParameterType.BOOLEAN,
                    True,
-                   longDescription="Create a Kubernetes cluster using default image setup")
-pc.defineParameter("deployOpenWhisk",
-                   "Deploy OpenWhisk",
-                   portal.ParameterType.BOOLEAN,
-                   True,
-                   longDescription="Use helm to deploy OpenWhisk.")
-pc.defineParameter("numOWCore",
-                   "Number of worker nodes to run OpenWhisk core on",
-                   portal.ParameterType.INTEGER,
-                   1,
                    advanced=True,
-                   longDescription="Number of OpenWhisk core nodes. All other nodes will be labelled as invoker nodes" \
-                           " which means they will run user functions.")
+                   longDescription="Create a Kubernetes cluster using default image setup")
 params = pc.bindParameters()
 
 # Verify parameters
 if params.tempFileSystemSize < 0 or params.tempFileSystemSize > 200:
     pc.reportError(portal.ParameterError("Please specify a size greater then zero and " +
                                          "less then 200GB", ["tempFileSystemSize"]))
-if not params.startKubernetes and params.deployOpenWhisk:
+if not params.startKubernetes and params.owCound > 0:
     perr = portal.ParameterWarning("The Kubernetes Cluster must be created in order to deploy OpenWhisk",['startKubernetes'])
     pc.reportError(perr)
-if params.deployOpenWhisk and params.numOWCore >= params.workerCount:
-    perr = portal.ParameterWarning("Number of core nodes must be less than the total number of worker nodes - at least one worker node must be left to be an invoker node", ["numOWCore"])
-    pc.reportError(perr)
-if params.deployOpenWhisk and params.numOWCore <= 0:
-    perr = portal.ParameterWarning("Number of core nodes must be 1 or more to deploy OpenWhisk.", ["numOWCore"])
+if params.owNodes + params.workerCount >= 9:
+    perr = portal.ParameterWarning("The total number of worker nodes (workerCount + owNodes) must be less than 10", ["owNodes"])
     pc.reportError(perr)
 pc.verifyParameters()
 request = pc.makeRequestRSpec()
@@ -108,7 +104,8 @@ iface.addAddress(rspec.IPv4Address("192.168.6.10", "255.255.255.0"))
 lan.addInterface(iface)
 
 # Create worker nodes, starting with index at 1 to get node1, node2, ...
-for i in range(1,params.workerCount + 1):
+total_workers = params.workerCount + params.owNodes
+for i in range(1, total_workers + 1):
   # Create node
   name = "node-{}".format(i)
   node = request.RawPC(name)
@@ -132,6 +129,6 @@ for i, node in enumerate(nodes[1:]):
   
 # Run start script on GCM
 nodes[0].addService(rspec.Execute(shell="bash", command="/local/repository/start.sh primary 192.168.6.10 {} {} {} {} 2>&1 > /local/repository/start.log".format(
-    params.workerCount, params.startKubernetes, params.deployOpenWhisk, params.numOWCore)))
+    params.workerCount + params.owNodes, params.startKubernetes, params.owNodes > 0, params.owNodes)))
 
 pc.printRequestRSpec()
