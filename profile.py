@@ -104,10 +104,27 @@ iface.addAddress(rspec.IPv4Address("192.168.6.10", "255.255.255.0"))
 lan.addInterface(iface)
 
 # Create worker nodes, starting with index at 1 to get node1, node2, ...
-total_workers = params.workerCount + params.owNodes
-for i in range(1, total_workers + 1):
+for i in range(1, params.workerCount + 1):
   # Create node
   name = "node-{}".format(i)
+  node = request.RawPC(name)
+  node.disk_image = NODE_IMAGES.get(params.nodeType)
+  node.hardware_type = params.nodeType
+  
+  nodes.append(node)
+  
+  # Add interface
+  iface = node.addInterface("if1")
+  iface.addAddress(rspec.IPv4Address("192.168.6.{}".format(10 - i), "255.255.255.0"))
+  lan.addInterface(iface)
+  
+  # Add extra storage space
+  add_blockstore(node, name + "-bs")
+  
+# Create ow nodes, starting with index at 1 to get node1, node2, ...
+for i in range(1, params.owNodes + 1):
+  # Create node
+  name = "ow-{}".format(i)
   node = request.RawPC(name)
   node.disk_image = NODE_IMAGES.get(params.nodeType)
   node.hardware_type = params.nodeType
