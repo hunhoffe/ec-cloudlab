@@ -174,27 +174,24 @@ prepare_for_openwhisk() {
     # Iterate over each node and set the openwhisk role
     # From https://superuser.com/questions/284187/bash-iterating-over-lines-in-a-variable
     NODE_NAMES=$(kubectl get nodes -o name | grep "node-")
-    INVOKER_NODES=$(($2-$3))
-    counter=0
     while IFS= read -r line; do
-	if [ $counter -lt $INVOKER_NODES ] ; then
-	    printf "%s: %s\n" "$(date +"%T.%N")" "Labelled ${line:5} as openwhisk invoker node"
-	    kubectl label nodes ${line:5} openwhisk-role=invoker
-            if [ $? -ne 0 ]; then
-                echo "***Error: Failed to set openwhisk role to invoker on ${line:5}."
-                exit -1
-            fi
-        else
-	    printf "%s: %s\n" "$(date +"%T.%N")" "Labelled ${line:5} as openwhisk core node"
-            kubectl label nodes ${line:5} openwhisk-role=core
-            if [ $? -ne 0 ]; then
-                echo "***Error: Failed to set openwhisk role to core on ${line:5}."
-                exit -1
-            fi
-	fi
-	counter=$((counter+1))
+      printf "%s: %s\n" "$(date +"%T.%N")" "Labelled ${line:5} as openwhisk invoker node"
+      kubectl label nodes ${line:5} openwhisk-role=invoker
+      if [ $? -ne 0 ]; then
+        echo "***Error: Failed to set openwhisk role to invoker on ${line:5}."
+        exit -1
+      fi
     done <<< "$NODE_NAMES"
-    printf "%s: %s\n" "$(date +"%T.%N")" "Labelled all nodes as invoker or core nodes."
+    NODE_NAMES=$(kubectl get nodes -o name | grep "ow-")
+    while IFS= read -r line; do
+      printf "%s: %s\n" "$(date +"%T.%N")" "Labelled ${line:5} as openwhisk core node"
+      kubectl label nodes ${line:5} openwhisk-role=core
+      if [ $? -ne 0 ]; then
+        echo "***Error: Failed to set openwhisk role to invoker on ${line:5}."
+        exit -1
+      fi
+    done <<< "$NODE_NAMES"
+    printf "%s: %s\n" "$(date +"%T.%N")" "Labelled nodes as invoker or core nodes."
     
     cp /local/repository/mycluster.yaml $INSTALL_DIR/openwhisk-deploy-kube/mycluster.yaml
     sed -i.bak "s/REPLACE_ME_WITH_IP/$1/g" $INSTALL_DIR/openwhisk-deploy-kube/mycluster.yaml
