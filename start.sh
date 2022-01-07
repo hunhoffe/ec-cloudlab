@@ -127,15 +127,15 @@ add_cluster_nodes() {
 
     CLUSTER_NODES=$(($1+1))
     echo "Cluster nodes expected: $CLUSTER_NODES"
-    NUM_REGISTERED=$(kubectl get nodes | tail -n +2 | wc -l)
-    NUM_REGISTERED=$((CLUSTER_NODES - NUM_REGISTERED))
+    NUM_REGISTERED=$(kubectl get nodes | wc -l)
+    NUM_REGISTERED=$(($1-NUM_REGISTERED+1))
     echo "Waiting for $NUM_REGISTERED/$CLUSTER_NODES nodes..."
     counter=0
     while [ "$NUM_REGISTERED" -ne 0 ]
     do 
 	sleep 2
         printf "%s: %s\n" "$(date +"%T.%N")" "Registering nodes, attempt #$counter, num left=$NUM_REGISTERED expected=$CLUSTER_NODES"
-	for (( i=9; i>9-$1; i-- ))
+        for (( i=2; i<=$1; i++ ))
         do
             SECONDARY_IP=$BASE_IP$i
             echo $SECONDARY_IP
@@ -144,20 +144,20 @@ add_cluster_nodes() {
             exec 3<&-
         done
 	counter=$((counter+1))
-        NUM_REGISTERED=$(kubectl get nodes | tail -n +2 | wc -l)
+        NUM_REGISTERED=$(kubectl get nodes | wc -l)
 	echo "Counted $NUM_REGISTERED/$CLUSTER_NODES nodes"
-        NUM_REGISTERED=$((CLUSTER_NODES - NUM_REGISTERED))
+        NUM_REGISTERED=$(($1-NUM_REGISTERED+1)) 
     done
 
     printf "%s: %s\n" "$(date +"%T.%N")" "Waiting for all nodes to have status of 'Ready': "
     NUM_READY=$(kubectl get nodes | grep Ready | wc -l)
-    NUM_READY=$(($1-NUM_READY+1))
+    NUM_READY=$(($1-NUM_READY))
     while [ "$NUM_READY" -ne 0 ]
     do
         sleep 1
         printf "."
-        NUM_READY=$(kubectl get nodes | tail -n +2 | wc -l)
-        NUM_READY=$(($1-NUM_READY+1))
+        NUM_READY=$(kubectl get nodes | grep Ready | wc -l)
+        NUM_READY=$(($1-NUM_READY))
     done
     printf "%s: %s\n" "$(date +"%T.%N")" "Done!"
 }
