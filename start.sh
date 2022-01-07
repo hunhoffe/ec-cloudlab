@@ -135,7 +135,7 @@ add_cluster_nodes() {
     do 
 	sleep 2
         printf "%s: %s\n" "$(date +"%T.%N")" "Registering nodes, attempt #$counter, num left=$NUM_REGISTERED expected=$CLUSTER_NODES"
-        for (( i=2; i<=$1; i++ ))
+        for (( i=2; i<=$CLUSTER_NODES; i++ ))
         do
             SECONDARY_IP=$BASE_IP$i
             echo $SECONDARY_IP
