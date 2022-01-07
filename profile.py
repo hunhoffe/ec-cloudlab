@@ -85,6 +85,23 @@ def add_blockstore(node, name):
   bs.size = str(params.tempFileSystemSize) + "GB"
   bs.placement = "any"
 
+def create_worker(name, nodes):
+  # Create node
+  node = request.RawPC(name)
+  node.disk_image = NODE_IMAGES.get(params.nodeType)
+  node.hardware_type = params.nodeType
+  
+  # Add interface
+  iface = node.addInterface("if1")
+  iface.addAddress(rspec.IPv4Address("192.168.6.{}".format(1 + len(nodes)), "255.255.255.0"))
+  lan.addInterface(iface)
+  
+  # Add extra storage space
+  add_blockstore(node, name + "-bs")
+  
+  # Add to node list
+  nodes.append(node)
+
 # Initial setup
 nodes = []
 lan = request.LAN()
@@ -100,52 +117,28 @@ nodes.append(node)
 
 # Add controller interface
 iface = node.addInterface("if1")
-iface.addAddress(rspec.IPv4Address("192.168.6.10", "255.255.255.0"))
+iface.addAddress(rspec.IPv4Address("192.168.6.1", "255.255.255.0"))
 lan.addInterface(iface)
 
-# Create worker nodes, starting with index at 1 to get node1, node2, ...
+# Create worker nodes, starting with index at 1 to get node-1, node-2, ...
 for i in range(1, params.workerCount + 1):
   # Create node
   name = "node-{}".format(i)
-  node = request.RawPC(name)
-  node.disk_image = NODE_IMAGES.get(params.nodeType)
-  node.hardware_type = params.nodeType
-  
-  nodes.append(node)
-  
-  # Add interface
-  iface = node.addInterface("if1")
-  iface.addAddress(rspec.IPv4Address("192.168.6.{}".format(10 - i), "255.255.255.0"))
-  lan.addInterface(iface)
-  
-  # Add extra storage space
-  add_blockstore(node, name + "-bs")
-  
-# Create ow nodes, starting with index at 1 to get node1, node2, ...
+  create_worker(name, nodes)
+
+# Create openwhisk worker nodes, starting with index at 1 to get ow-1, ow-2, ...
 for i in range(1, params.owNodes + 1):
   # Create node
   name = "ow-{}".format(i)
-  node = request.RawPC(name)
-  node.disk_image = NODE_IMAGES.get(params.nodeType)
-  node.hardware_type = params.nodeType
-  
-  nodes.append(node)
-  
-  # Add interface
-  iface = node.addInterface("if1")
-  iface.addAddress(rspec.IPv4Address("192.168.6.{}".format(10 - i), "255.255.255.0"))
-  lan.addInterface(iface)
-  
-  # Add extra storage space
-  add_blockstore(node, name + "-bs")
+  create_worker(name, nodes)
 
-# Run start script on worker nodes
+# Run start script on worker nodes; first node in list is GCM so ignore that node here
 for i, node in enumerate(nodes[1:]):
   node.addService(rspec.Execute(shell="bash", command="/local/repository/start.sh secondary 192.168.6.{} {} 2>&1 > /local/repository/start.log &".format(
-      9 - i, params.startKubernetes)))
+      i + 1, params.startKubernetes)))
   
 # Run start script on GCM
-nodes[0].addService(rspec.Execute(shell="bash", command="/local/repository/start.sh primary 192.168.6.10 {} {} {} {} 2>&1 > /local/repository/start.log".format(
+nodes[0].addService(rspec.Execute(shell="bash", command="/local/repository/start.sh primary 192.168.6.1 {} {} {} {} 2>&1 > /local/repository/start.log".format(
     params.workerCount + params.owNodes, params.startKubernetes, params.owNodes > 0, params.owNodes)))
 
 pc.printRequestRSpec()
