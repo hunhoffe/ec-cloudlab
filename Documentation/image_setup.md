@@ -4,12 +4,11 @@
 
 The following scripts/instructions assume the node is configured with extra storage for docker images mounted at /mydata.
 IP addresses should be configured as follows:
-* GCM with 192.168.6.10
-* Node1 with 192.168.6.9
-* Node2 with 192.168.6.8
-* Node3 with 192.168.6.7
+* GCM with 192.168.6.1
+* Node1 with 192.168.6.2
+* Node2 with 192.168.6.3
+* Node3 with 192.168.6.4
 * and so on...
-* Maximum of 8 worker nodes, e.g., script stops working after 192.168.6.1.
 
 ## GCM Node
 
