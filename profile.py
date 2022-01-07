@@ -135,7 +135,7 @@ for i in range(1, params.owNodes + 1):
 # Run start script on worker nodes; first node in list is GCM so ignore that node here
 for i, node in enumerate(nodes[1:]):
   node.addService(rspec.Execute(shell="bash", command="/local/repository/start.sh secondary 192.168.6.{} {} 2>&1 > /local/repository/start.log &".format(
-      i + 1, params.startKubernetes)))
+      i + 2, params.startKubernetes)))
   
 # Run start script on GCM
 nodes[0].addService(rspec.Execute(shell="bash", command="/local/repository/start.sh primary 192.168.6.1 {} {} {} {} 2>&1 > /local/repository/start.log".format(
