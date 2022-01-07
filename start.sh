@@ -3,13 +3,23 @@
 set -x
 
 BASE_IP="192.168.6."
+ESCRA_INTERFACE="escra"
 SECONDARY_PORT=3000
 INSTALL_DIR=/home/ec
 NUM_MIN_ARGS=3
 PRIMARY_ARG="primary"
 SECONDARY_ARG="secondary"
 NUM_PRIMARY_ARGS=6
-USAGE=$'Usage:\n\t./start.sh secondary <node_ip> <start_kubernetes>\n\t./start.sh primary <node_ip> <num_workers> <start_kubernetes> <deploy_openwhisk> <num_invokers>'
+USAGE=$'Usage:\n\t./start.sh secondary <node_ip> <start_kubernetes>\n\t./start.sh primary <node_ip> <num_core> <start_kubernetes> <deploy_openwhisk> <num_invokers>'
+
+configure_worker_interface() {
+  # Takes IP address as argument
+  # Source: https://docs.rackspace.com/support/how-to/identifying-network-interfaces-on-linux/
+  INTERFACE=$(ip -4 -o a | grep "$1" | cut -d ' ' -f 2,7 | cut -d '/' -f 1 | cut -d ' ' -f 1)
+  sudo ip link set dev $INTERFACE down
+  sudo ip link set $INTERFACE name $ESCRA_INTERFACE
+  sudo ip link set dev $ESCRA_INTERFACE up
+}
 
 configure_docker_storage() {
     printf "%s: %s\n" "$(date +"%T.%N")" "Configuring docker storage"
@@ -118,14 +128,14 @@ add_cluster_nodes() {
     CLUSTER_NODES=$(($1+1))
     echo "Cluster nodes expected: $CLUSTER_NODES"
     NUM_REGISTERED=$(kubectl get nodes | tail -n +2 | wc -l)
-    NUM_REGISTERED=$((CLUSTER_NODES - NUM_REGISTERED))
+    NUM_REGISTERED=$(($1-NUM_REGISTERED+1))
     echo "Waiting for $NUM_REGISTERED/$CLUSTER_NODES nodes..."
     counter=0
     while [ "$NUM_REGISTERED" -ne 0 ]
     do 
 	sleep 2
         printf "%s: %s\n" "$(date +"%T.%N")" "Registering nodes, attempt #$counter, num left=$NUM_REGISTERED expected=$CLUSTER_NODES"
-	for (( i=9; i>9-$1; i-- ))
+        for (( i=2; i<=$CLUSTER_NODES; i++ ))
         do
             SECONDARY_IP=$BASE_IP$i
             echo $SECONDARY_IP
@@ -136,18 +146,18 @@ add_cluster_nodes() {
 	counter=$((counter+1))
         NUM_REGISTERED=$(kubectl get nodes | tail -n +2 | wc -l)
 	echo "Counted $NUM_REGISTERED/$CLUSTER_NODES nodes"
-        NUM_REGISTERED=$((CLUSTER_NODES - NUM_REGISTERED))
+        NUM_REGISTERED=$(($1-NUM_REGISTERED+1)) 
     done
 
     printf "%s: %s\n" "$(date +"%T.%N")" "Waiting for all nodes to have status of 'Ready': "
-    NUM_READY=$(kubectl get nodes | grep Ready | wc -l)
-    NUM_READY=$(($1-NUM_READY+1))
+    NUM_READY=$(kubectl get nodes | tail -n +2 | grep " Ready " | wc -l)
+    NUM_READY=$((CLUSTER_NODES-NUM_READY))
     while [ "$NUM_READY" -ne 0 ]
     do
         sleep 1
         printf "."
-        NUM_READY=$(kubectl get nodes | tail -n +2 | wc -l)
-        NUM_READY=$(($1-NUM_READY+1))
+        NUM_READY=$(kubectl get nodes | tail -n +2 | grep " Ready " | wc -l)
+        NUM_READY=$((CLUSTER_NODES-NUM_READY))
     done
     printf "%s: %s\n" "$(date +"%T.%N")" "Done!"
 }
@@ -164,31 +174,28 @@ prepare_for_openwhisk() {
     # Iterate over each node and set the openwhisk role
     # From https://superuser.com/questions/284187/bash-iterating-over-lines-in-a-variable
     NODE_NAMES=$(kubectl get nodes -o name | grep "node-")
-    CORE_NODES=$(($2-$3))
-    counter=0
     while IFS= read -r line; do
-	if [ $counter -lt $CORE_NODES ] ; then
-	    printf "%s: %s\n" "$(date +"%T.%N")" "Labelled ${line:5} as openwhisk core node"
-	    kubectl label nodes ${line:5} openwhisk-role=core
-            if [ $? -ne 0 ]; then
-                echo "***Error: Failed to set openwhisk role to invoker on ${line:5}."
-                exit -1
-            fi
-        else
-	    printf "%s: %s\n" "$(date +"%T.%N")" "Labelled ${line:5} as openwhisk invoker node"
-            kubectl label nodes ${line:5} openwhisk-role=invoker
-            if [ $? -ne 0 ]; then
-                echo "***Error: Failed to set openwhisk role to invoker on ${line:5}."
-                exit -1
-            fi
-	fi
-	counter=$((counter+1))
+      printf "%s: %s\n" "$(date +"%T.%N")" "Labelled ${line:5} as openwhisk invoker node"
+      kubectl label nodes ${line:5} openwhisk-role=invoker
+      if [ $? -ne 0 ]; then
+        echo "***Error: Failed to set openwhisk role to invoker on ${line:5}."
+        exit -1
+      fi
     done <<< "$NODE_NAMES"
-    printf "%s: %s\n" "$(date +"%T.%N")" "Labelled all nodes as invoker or core nodes."
+    NODE_NAMES=$(kubectl get nodes -o name | grep "ow-")
+    while IFS= read -r line; do
+      printf "%s: %s\n" "$(date +"%T.%N")" "Labelled ${line:5} as openwhisk core node"
+      kubectl label nodes ${line:5} openwhisk-role=core
+      if [ $? -ne 0 ]; then
+        echo "***Error: Failed to set openwhisk role to invoker on ${line:5}."
+        exit -1
+      fi
+    done <<< "$NODE_NAMES"
+    printf "%s: %s\n" "$(date +"%T.%N")" "Labelled nodes as invoker or core nodes."
     
-    sudo cp /local/repository/mycluster.yaml $INSTALL_DIR/openwhisk-deploy-kube/mycluster.yaml
-    sudo sed -i.bak "s/REPLACE_ME_WITH_IP/$1/g" $INSTALL_DIR/openwhisk-deploy-kube/mycluster.yaml
-    sudo sed -i.bak "s/REPLACE_ME_WITH_COUNT/$3/g" $INSTALL_DIR/openwhisk-deploy-kube/mycluster.yaml
+    cp /local/repository/mycluster.yaml $INSTALL_DIR/openwhisk-deploy-kube/mycluster.yaml
+    sed -i.bak "s/REPLACE_ME_WITH_IP/$1/g" $INSTALL_DIR/openwhisk-deploy-kube/mycluster.yaml
+    sed -i.bak "s/REPLACE_ME_WITH_COUNT/$3/g" $INSTALL_DIR/openwhisk-deploy-kube/mycluster.yaml
     printf "%s: %s\n" "$(date +"%T.%N")" "Added primary node IP and num invokers to $INSTALL_DIR/openwhisk-deploy-kube/mycluster.yaml"
 }
 
@@ -269,7 +276,7 @@ if [ $1 == $SECONDARY_ARG ] ; then
         printf "%s: %s\n" "$(date +"%T.%N")" "Start Kubernetes is $3, done!"
         exit 0
     fi
-
+    configure_worker_interface $2
     setup_secondary $2
     exit 0
 fi
@@ -280,6 +287,11 @@ if [ $# -ne $NUM_PRIMARY_ARGS ]; then
     echo "$USAGE"
     exit -1
 fi
+
+# Fix permissions in /home/ec on the GCM node
+MY_USER=($USER)
+echo $MY_USER
+sudo chown -R $MY_USER: /home/ec/
 
 # Exit early if we don't need to start Kubernetes
 if [ "$4" = "False" ]; then
@@ -307,7 +319,7 @@ if [ $3 -lt $6 ] ; then
     exit -1
 fi
 
-# Prepare cluster to deploy OpenWhisk, takes IP and node num and num invokers
+# Prepare cluster to deploy OpenWhisk, takes IP and node num and num core
 prepare_for_openwhisk $2 $3 $6
 
 # Deploy OpenWhisk via Helm
