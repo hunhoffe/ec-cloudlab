@@ -1,6 +1,6 @@
-# Exploring how to Use Lithops
+# Lithops Setup 
 
-I'm going to try to run Lithops with OpenWhisk as a backend, and redis as the storage backend. 
+I'm going to try to run Lithops with OpenWhisk as a backend, and redis as storage. 
 First, I created an experiment of this profile in CloudLab with 3 worker nodes and 2 OpenWhisk nodes.
 
 ## Install a Redis Master Pod
@@ -63,18 +63,17 @@ spec:
 
 Install with:
 ```
-$ sudo kubectl apply -f redis-master.yaml
+$ kubectl apply -f redis-master.yaml
 ```
 
 Wait until the redis-master pod is in the running state with:
 ```
-$ sudo kubectl get pods
+$ kubectl get pods
 ```
 
 ## Install Lithops
 
-Some instructions found [here](https://github.com/lithops-cloud/lithops)
-
+Lithops is on [github](https://github.com/lithops-cloud/lithops) and has an additional [documentation](https://lithops-cloud.github.io/docs/index.html)
 First, we need to install update pip3:
 
 ```
@@ -114,7 +113,7 @@ $ wsk -i property get --all
 
 And for redis: 
 ```
-$ sudo kubectl get services
+$ kubectl get services
 ```
 And I used the ```CLUSTER-IP``` to fill in the host value in the ```lithops-config.yaml``` file.
 
