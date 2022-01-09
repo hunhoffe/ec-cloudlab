@@ -13,7 +13,7 @@ else
 fi
 
 # Setup openwhisk endpoints
-wsk property set --apihost 192.168.6.10:31001
+wsk property set --apihost 192.168.6.1:31001
 wsk property set --auth 23bc46b1-71f6-4ed5-8c54-816aa4f8c502:123zO3xZCLrMN6v2BKK1dXYFpXlPkccOFqm12CdAsMgRU4VrNZ9lyGVCGuMDGIwP
 
 # Make sure to use SSH instead of HTTPS for GitHub-based submodules
