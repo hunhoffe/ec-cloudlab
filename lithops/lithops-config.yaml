@@ -9,6 +9,6 @@ openwhisk:
     insecure    : True
 
 redis:
-    host: <TODO>
+    host: REPLACE_WITH_IP
     port: 6379
     password: password
