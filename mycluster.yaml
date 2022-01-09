@@ -4,7 +4,7 @@ whisk:
     type: NodePort
     apiHostName: REPLACE_ME_WITH_IP
     apiHostPort: 31001
-  runtimes: "runtimes-minimal-travis.json"
+  runtimes: "myruntimes.json"
   limits:
     actionsInvokesPerminute: 150
     actionsInvokesConcurrent: 150
