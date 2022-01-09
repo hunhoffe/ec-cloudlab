@@ -193,7 +193,7 @@ prepare_for_openwhisk() {
     done <<< "$NODE_NAMES"
     printf "%s: %s\n" "$(date +"%T.%N")" "Labelled nodes as invoker or core nodes."
     
-    cp /local/repository/myruntimes.json $INSTALL_DIR/openwhisk-deploy-kube/myruntimes.json
+    cp /local/repository/myruntimes.json $INSTALL_DIR/openwhisk-deploy-kube/helm/openwhisk/myruntimes.json
     
     cp /local/repository/mycluster.yaml $INSTALL_DIR/openwhisk-deploy-kube/mycluster.yaml
     sed -i.bak "s/REPLACE_ME_WITH_IP/$1/g" $INSTALL_DIR/openwhisk-deploy-kube/mycluster.yaml
