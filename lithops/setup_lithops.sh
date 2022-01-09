@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set +x 
-
 LITHOPS_CONFIG="/local/repository/lithops/lithops-config.yaml"
 
 # Setup openwhisk endpoints
