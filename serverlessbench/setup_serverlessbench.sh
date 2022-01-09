@@ -19,3 +19,4 @@ git clone https://github.com/SJTU-IPADS/ServerlessBench.git
 # Set directory location
 # From: https://github.com/SJTU-IPADS/ServerlessBench/tree/master/Testcase4-Application-breakdown
 export TESTCASE4_HOME=~/ServerlessBench/Testcase4-Application-breakdown
+echo 'export TESTCASE4_HOME=~/ServerlessBench/Testcase4-Application-breakdown' | sudo tee -a ~/.bashrc
