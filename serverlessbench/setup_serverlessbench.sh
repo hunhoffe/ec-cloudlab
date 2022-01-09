@@ -6,7 +6,7 @@ wsk property set --auth 23bc46b1-71f6-4ed5-8c54-816aa4f8c502:123zO3xZCLrMN6v2BKK
 
 # Install serverlessbench dependencies
 # From: https://github.com/SJTU-IPADS/ServerlessBench/tree/master/Testcase4-Application-breakdown
-sudo apt-get install maven nodejs jq\
+sudo apt-get install -y maven nodejs jq\
                      gcc-7 g++-7 protobuf-compiler libprotobuf-dev \
                      libcrypto++-dev libcap-dev \
                      libncurses5-dev libboost-dev libssl-dev autopoint help2man \
@@ -15,6 +15,10 @@ sudo apt-get install maven nodejs jq\
 # Clone the serverlessbench repo
 cd ~
 git clone https://github.com/SJTU-IPADS/ServerlessBench.git
+
+# Necessary to run docker without sudo
+CURRENT_USER=$(whoami)
+sudo gpasswd -a $CURRENT_USER docker
 
 # Set directory location
 # From: https://github.com/SJTU-IPADS/ServerlessBench/tree/master/Testcase4-Application-breakdown
