@@ -24,3 +24,20 @@ sudo gpasswd -a $CURRENT_USER docker
 # From: https://github.com/SJTU-IPADS/ServerlessBench/tree/master/Testcase4-Application-breakdown
 export TESTCASE4_HOME=~/ServerlessBench/Testcase4-Application-breakdown
 echo 'export TESTCASE4_HOME=~/ServerlessBench/Testcase4-Application-breakdown' | sudo tee -a ~/.bashrc
+
+# Create couchdb deployment
+# Instructions from: https://artifacthub.io/packages/helm/couchdb/couchdb#configuration
+cd ~
+kubectl create secret generic my-db-couchdb --from-literal=adminUsername=admin --from-literal=adminPassword=password --from-literal=cookieAuthSecret=secret
+helm repo add couchdb https://apache.github.io/couchdb-helm
+helm install my-db --set createAdminSecret=false --set couchdbConfig.couchdb.uuid=decafbaddecafbaddecafbaddecafbad couchdb/couchdb
+sleep 30
+
+kubectl get services | grep 
+
+# Set environment variables in bashrc
+echo "export COUCHDB_USERNAME=admin" | sudo tee -a ~/.bashrc
+echo "export COUCHDB_PASSWORD=password" | sudo tee -a ~/.bashrc
+COUCHDB_IP=$(kubectl get services | grep "svc-couchdb" | awk '{print $3}')
+echo "export COUCHDB_IP=$COUCHDB_IP" | sudo tee -a ~/.bashrc
+echo "export COUCHDB_PORT=" | sudo tee -a ~/.bashrc
