@@ -27,4 +27,4 @@ sed -i.bak "s/REPLACE_ME_WITH_IP/$REDIS_IP/g" $LITHOPS_CONFIG
 
 # Export lithops necessary config
 export LITHOPS_CONFIG_FILE=$LITHOPS_CONFIG
-echo 'export LITHOPS_CONFIG_FILE=$LITHOPS_CONFIG' | sudo tee -a ~/.bashrc
+echo "export LITHOPS_CONFIG_FILE=$LITHOPS_CONFIG" | sudo tee -a ~/.bashrc
