@@ -14,7 +14,7 @@ sudo apt-get install -y maven nodejs jq\
 
 # Clone the serverlessbench repo
 cd ~
-git clone https://github.com/SJTU-IPADS/ServerlessBench.git
+git clone https://github.com/hunhoffe/ServerlessBench.git
 
 # Necessary to run docker without sudo
 CURRENT_USER=$(whoami)
