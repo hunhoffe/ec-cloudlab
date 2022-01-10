@@ -40,4 +40,4 @@ echo "export COUCHDB_USERNAME=admin" | sudo tee -a ~/.bashrc
 echo "export COUCHDB_PASSWORD=password" | sudo tee -a ~/.bashrc
 COUCHDB_IP=$(kubectl get services | grep "svc-couchdb" | awk '{print $3}')
 echo "export COUCHDB_IP=$COUCHDB_IP" | sudo tee -a ~/.bashrc
-echo "export COUCHDB_PORT=" | sudo tee -a ~/.bashrc
+echo "export COUCHDB_PORT=5984" | sudo tee -a ~/.bashrc
