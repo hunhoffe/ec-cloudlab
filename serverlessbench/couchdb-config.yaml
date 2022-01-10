@@ -1,0 +1,14 @@
+
+adminUsername: admin
+
+# super insecure
+adminPassword: password
+#affinity:
+#  nodeAffinity:
+#    requiredDuringSchedulingIgnoredDuringExecution:
+#      nodeSelectorTerms:
+#      - matchExpressions:
+#        - key: openwhisk
+#          operator: In
+#          values:
+#          - core   
