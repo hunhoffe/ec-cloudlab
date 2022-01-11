@@ -36,10 +36,19 @@ echo 'export TESTCASE4_HOME=~/ServerlessBench/Testcase4-Application-breakdown' |
 cd ~
 kubectl create secret generic my-db-couchdb --from-literal=adminUsername=admin --from-literal=adminPassword=password --from-literal=cookieAuthSecret=secret
 helm repo add couchdb https://apache.github.io/couchdb-helm
-helm install my-db --set createAdminSecret=false --set couchdbConfig.couchdb.uuid=decafbaddecafbaddecafbaddecafbad couchdb/couchdb
+helm install my-db --set createAdminSecret=false --set couchdbConfig.couchdb.uuid=decafbaddecafbaddecafbaddecafbad couchdb/couchdb -f couchdb-config.yaml
 
 # Wait for it to deploy
 sleep 90
+
+# Finish deployment setup
+echo $COUCHDB_PASSWORD | kubectl exec --namespace default -it my-db-couchdb-0 -c couchdb -- \
+    curl -s \
+    http://127.0.0.1:5984/_cluster_setup \
+    -X POST \
+    -H "Content-Type: application/json" \
+    -d '{"action": "finish_cluster"}' \
+    -u admin 
 
 # Set environment variables in bashrc for couchdb config
 echo "export COUCHDB_USERNAME=$COUCHDB_USERNAME" | sudo tee -a ~/.bashrc
