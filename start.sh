@@ -61,7 +61,7 @@ setup_secondary() {
     git checkout --track origin/controller-timeout
 
     # compile what is needed and create + tag the docker image for the controller
-    bin/wskdev controller -b
+    sudo bin/wskdev controller -b
     sudo docker tag whisk/controller whisk/controller:v2
   
     coproc nc { nc -l $1 $SECONDARY_PORT; }
