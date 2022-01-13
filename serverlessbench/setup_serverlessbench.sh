@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# Configuration Values
-COUCHDB_USERNAME=admin
-COUCHDB_PASSWORD=password
-COUCHDB_PORT=5984
-IMAGE_DATABASE=image_database
-
 # Set wsk properties
 wsk property set --apihost 192.168.6.1:31001
 wsk property set --auth 23bc46b1-71f6-4ed5-8c54-816aa4f8c502:123zO3xZCLrMN6v2BKK1dXYFpXlPkccOFqm12CdAsMgRU4VrNZ9lyGVCGuMDGIwP
@@ -50,13 +44,8 @@ echo $COUCHDB_PASSWORD | kubectl exec --namespace default -it my-db-couchdb-0 -c
     -d '{"action": "finish_cluster"}' \
     -u admin 
 
-# Set environment variables in bashrc for couchdb config
-echo "export COUCHDB_USERNAME=$COUCHDB_USERNAME" | sudo tee -a ~/.bashrc
-echo "export COUCHDB_PASSWORD=$COUCHDB_PASSWORD" | sudo tee -a ~/.bashrc
 COUCHDB_IP=$(kubectl get services | grep "svc-couchdb" | awk '{print $3}')
-echo "export COUCHDB_IP=$COUCHDB_IP" | sudo tee -a ~/.bashrc
-echo "export COUCHDB_PORT=$COUCHDB_PORT" | sudo tee -a ~/.bashrc
+echo "COUCHDB_IP=$COUCHDB_IP" | sudo tee -a $TESTCASE4_HOME/local.env
 
 # Create an image database and set environment variable in bashrc
 curl -X PUT http://$COUCHDB_USERNAME:$COUCHDB_PASSWORD@$COUCHDB_IP:$COUCHDB_PORT/$IMAGE_DATABASE
-echo "export IMAGE_DATABASE=$IMAGE_DATABASE" | sudo tee -a ~/.bashrc
