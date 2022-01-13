@@ -36,7 +36,7 @@ echo 'export TESTCASE4_HOME=~/ServerlessBench/Testcase4-Application-breakdown' |
 cd ~
 kubectl create secret generic my-db-couchdb --from-literal=adminUsername=admin --from-literal=adminPassword=password --from-literal=cookieAuthSecret=secret
 helm repo add couchdb https://apache.github.io/couchdb-helm
-helm install my-db --set createAdminSecret=false --set couchdbConfig.couchdb.uuid=decafbaddecafbaddecafbaddecafbad couchdb/couchdb -f couchdb-config.yaml
+helm install my-db --set createAdminSecret=false --set couchdbConfig.couchdb.uuid=decafbaddecafbaddecafbaddecafbad couchdb/couchdb -f /local/repository/serverlessbench/couchdb-config.yaml
 
 # Wait for it to deploy
 sleep 90
