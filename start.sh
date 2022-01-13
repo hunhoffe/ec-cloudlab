@@ -12,15 +12,6 @@ SECONDARY_ARG="secondary"
 NUM_PRIMARY_ARGS=6
 USAGE=$'Usage:\n\t./start.sh secondary <node_ip> <start_kubernetes>\n\t./start.sh primary <node_ip> <num_core> <start_kubernetes> <deploy_openwhisk> <num_invokers>'
 
-configure_worker_interface() {
-  # Takes IP address as argument
-  # Source: https://docs.rackspace.com/support/how-to/identifying-network-interfaces-on-linux/
-  INTERFACE=$(ip -4 -o a | grep "$1" | cut -d ' ' -f 2,7 | cut -d '/' -f 1 | cut -d ' ' -f 1)
-  sudo ip link set dev $INTERFACE down
-  sudo ip link set $INTERFACE name $ESCRA_INTERFACE
-  sudo ip link set dev $ESCRA_INTERFACE up
-}
-
 configure_docker_storage() {
     printf "%s: %s\n" "$(date +"%T.%N")" "Configuring docker storage"
     sudo mkdir /mydata/docker
@@ -50,7 +41,24 @@ disable_swap() {
     sudo sed -i.bak 's/UUID=.*swap/# &/' /etc/fstab
 }
 
-setup_secondary() {    
+setup_secondary() {
+    # Takes IP address as argument
+    # Source: https://docs.rackspace.com/support/how-to/identifying-network-interfaces-on-linux/
+    INTERFACE=$(ip -4 -o a | grep "$1" | cut -d ' ' -f 2,7 | cut -d '/' -f 1 | cut -d ' ' -f 1)
+    sudo ip link set dev $INTERFACE down
+    sudo ip link set $INTERFACE name $ESCRA_INTERFACE
+    sudo ip link set dev $ESCRA_INTERFACE up
+  
+    # clone openwhisk fork, switch to branch with modified code
+    cd ~
+    git clone https://github.com/hunhoffe/openwhisk.git
+    cd openwhisk
+    git checkout --track origin/controller-timeout
+
+    # compile what is needed and create + tag the docker image for the controller
+    bin/wskdev controller -b
+    sudo docker tag whisk/controller whisk/controller:v2
+  
     coproc nc { nc -l $1 $SECONDARY_PORT; }
 
     printf "%s: %s\n" "$(date +"%T.%N")" "Waiting for command to join kubernetes cluster, nc pid is $nc_PID"
@@ -284,7 +292,6 @@ if [ $1 == $SECONDARY_ARG ] ; then
         printf "%s: %s\n" "$(date +"%T.%N")" "Start Kubernetes is $3, done!"
         exit 0
     fi
-    configure_worker_interface $2
     setup_secondary $2
     exit 0
 fi
