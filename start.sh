@@ -265,6 +265,12 @@ if test -d "/mydata"; then
     configure_docker_storage
 fi
 
+# Add all users to docker group
+for FILE in /users/*; do
+    CURRENT_USER=${FILE##*/}
+    sudo gpasswd -a $CURRENT_USER docker
+done
+
 # Use second argument (node IP) to replace filler in kubeadm configuration, and restart the daemon
 sudo sed -i.bak "s/REPLACE_ME_WITH_IP/$2/g" /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 sudo systemctl daemon-reload
