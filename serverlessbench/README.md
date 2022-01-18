@@ -9,7 +9,7 @@ cd /local/repository/serverlessbench
 On all worker nodes, run (NOTE - this requires you to interactively ```docker login```):
 ```
 cd /local/repository/serverlessbench
-./worker_setup.sh
+./setup_worker.sh
 ```
 
 Then, setup to run image-process:
