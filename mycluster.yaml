@@ -21,8 +21,6 @@ k8s:
     enabled: false
 nginx:
   httpsNodePort: 31001
-controller:
-  replicaCount: REPLACE_ME_WITH_COUNT
 invoker:
   jvmHeapMB: 8192
   # TODO: disable invoker logging to help performance in benchmarks
