@@ -13,7 +13,7 @@ wsk property set --auth 23bc46b1-71f6-4ed5-8c54-816aa4f8c502:123zO3xZCLrMN6v2BKK
 # Install ServerlessBench dependencies
 # From: https://github.com/SJTU-IPADS/ServerlessBench/tree/master/Testcase4-Application-breakdown
 sudo apt update
-sudo apt-get install -y maven nodejs jq\
+sudo apt-get install -y maven nodejs jq sudo apt install openjdk-8-jdk-headless \
                      gcc-7 g++-7 protobuf-compiler libprotobuf-dev \
                      libcrypto++-dev libcap-dev \
                      libncurses5-dev libboost-dev libssl-dev autopoint help2man \
