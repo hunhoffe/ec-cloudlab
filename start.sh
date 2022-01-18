@@ -49,6 +49,23 @@ setup_secondary() {
     sudo ip link set $INTERFACE name $ESCRA_INTERFACE
     sudo ip link set dev $ESCRA_INTERFACE up
   
+    # Openwhisk build dependencies
+    sudo apt update
+    sudo apt install -y nodejs npm default-jre
+    sudo apt install -y default-jdk
+
+    # clone openwhisk fork, switch to branch with modified code
+    cd ~
+    git clone https://github.com/hunhoffe/openwhisk.git
+    cd openwhisk
+    git checkout --track origin/escra
+
+    # compile what is needed and create + tag the docker image for the controller
+    sudo bin/wskdev controller -b
+    sudo docker tag whisk/controller whisk/controller:v2
+    sudo bin/wskdev invoker -b
+    sudo docker tag whisk/invoker whisk/invoker:v2
+  
     coproc nc { nc -l $1 $SECONDARY_PORT; }
 
     printf "%s: %s\n" "$(date +"%T.%N")" "Waiting for command to join kubernetes cluster, nc pid is $nc_PID"
