@@ -23,8 +23,6 @@ nginx:
   httpsNodePort: 31001
 controller:
   replicaCount: REPLACE_ME_WITH_COUNT
-  imageName: "whisk/controller"
-  imageTag: "v2"
 invoker:
   jvmHeapMB: 8192
   # TODO: disable invoker logging to help performance in benchmarks
