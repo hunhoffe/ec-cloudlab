@@ -1,6 +1,8 @@
 #!/bin/bash
 
-INSTALL_DIR=~
+set -x
+
+INSTALL_DIR="$HOME"
 TEST_PATH="$INSTALL_DIR/ServerlessBench/Testcase4-Application-breakdown"
 CONFIG_FILE="local.env"
 BASE_DIR="/local/repository/serverlessbench"
