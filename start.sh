@@ -180,6 +180,7 @@ add_cluster_nodes() {
 prepare_for_openwhisk() {
 
     kubectl create namespace openwhisk
+    kubectl create namespace ow-actions
     if [ $? -ne 0 ]; then
         echo "***Error: Failed to create openwhisk namespace"
         exit 1
