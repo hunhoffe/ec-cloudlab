@@ -57,6 +57,6 @@ echo $COUCHDB_PASSWORD | kubectl exec --namespace default -it $COUCHDB_NAME-couc
 COUCHDB_IP=$(kubectl get services | grep "svc-couchdb" | awk '{print $3}')
 echo "COUCHDB_IP=$COUCHDB_IP" | sudo tee -a $TEST_PATH/$CONFIG_FILE
 
-# Create an image and couch db log database and set environment variable in bashrc
+# Create an image and couch db log database
 curl -X PUT http://$COUCHDB_USERNAME:$COUCHDB_PASSWORD@$COUCHDB_IP:$COUCHDB_PORT/$COUCHDB_LOGDB
 curl -X PUT http://$COUCHDB_USERNAME:$COUCHDB_PASSWORD@$COUCHDB_IP:$COUCHDB_PORT/$IMAGE_DATABASE
