@@ -42,7 +42,7 @@ helm repo add couchdb https://apache.github.io/couchdb-helm
 helm install $COUCHDB_NAME --set createAdminSecret=false --set couchdbConfig.couchdb.uuid=decafbaddecafbaddecafbaddecafbad couchdb/couchdb -f $COUCHDB_CONFIG
 
 # Wait for it to deploy
-sleep 90
+sleep 30
 
 # Finish deployment setup
 echo $COUCHDB_PASSWORD | kubectl exec --namespace default -it $COUCHDB_NAME-couchdb-0 -c couchdb -- \
