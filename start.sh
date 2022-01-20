@@ -62,9 +62,9 @@ setup_secondary() {
 
     # compile what is needed and create + tag the docker image for the controller
     sudo bin/wskdev controller -b
-    sudo docker tag whisk/controller whisk/controller:v2
+    sudo docker tag whisk/controller whisk/controller:vcpu2
     sudo bin/wskdev invoker -b
-    sudo docker tag whisk/invoker whisk/invoker:v2
+    sudo docker tag whisk/invoker whisk/invoker:vcpu2
   
     coproc nc { nc -l $1 $SECONDARY_PORT; }
 
@@ -180,7 +180,6 @@ add_cluster_nodes() {
 prepare_for_openwhisk() {
 
     kubectl create namespace openwhisk
-    kubectl create namespace ow-actions
     if [ $? -ne 0 ]; then
         echo "***Error: Failed to create openwhisk namespace"
         exit 1
