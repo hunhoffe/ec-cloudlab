@@ -4,7 +4,7 @@ whisk:
     type: NodePort
     apiHostName: REPLACE_ME_WITH_IP
     apiHostPort: 31001
-  runtimes: "runtimes-minimal-travis.json"
+  runtimes: "myruntimes.json"
   limits:
     actionsInvokesPerminute: 150
     actionsInvokesConcurrent: 150
@@ -23,8 +23,12 @@ nginx:
   httpsNodePort: 31001
 controller:
   replicaCount: REPLACE_ME_WITH_COUNT
+  imageName: "whisk/controller"
+  imageTag: "vcpu2"
 invoker:
   jvmHeapMB: 8192
+  imageName: "whisk/invoker"
+  imageTag: "vcpu2"
   # TODO: disable invoker logging to help performance in benchmarks
   # options: "-Dwhisk.spi.LogStoreProvider=org.apache.openwhisk.core.containerpool.logging.LogDriverLogStoreProvider"
   containerFactory:

@@ -12,15 +12,6 @@ SECONDARY_ARG="secondary"
 NUM_PRIMARY_ARGS=6
 USAGE=$'Usage:\n\t./start.sh secondary <node_ip> <start_kubernetes>\n\t./start.sh primary <node_ip> <num_core> <start_kubernetes> <deploy_openwhisk> <num_invokers>'
 
-configure_worker_interface() {
-  # Takes IP address as argument
-  # Source: https://docs.rackspace.com/support/how-to/identifying-network-interfaces-on-linux/
-  INTERFACE=$(ip -4 -o a | grep "$1" | cut -d ' ' -f 2,7 | cut -d '/' -f 1 | cut -d ' ' -f 1)
-  sudo ip link set dev $INTERFACE down
-  sudo ip link set $INTERFACE name $ESCRA_INTERFACE
-  sudo ip link set dev $ESCRA_INTERFACE up
-}
-
 configure_docker_storage() {
     printf "%s: %s\n" "$(date +"%T.%N")" "Configuring docker storage"
     sudo mkdir /mydata/docker
@@ -50,7 +41,31 @@ disable_swap() {
     sudo sed -i.bak 's/UUID=.*swap/# &/' /etc/fstab
 }
 
-setup_secondary() {    
+setup_secondary() {
+    # Takes IP address as argument
+    # Source: https://docs.rackspace.com/support/how-to/identifying-network-interfaces-on-linux/
+    INTERFACE=$(ip -4 -o a | grep "$1" | cut -d ' ' -f 2,7 | cut -d '/' -f 1 | cut -d ' ' -f 1)
+    sudo ip link set dev $INTERFACE down
+    sudo ip link set $INTERFACE name $ESCRA_INTERFACE
+    sudo ip link set dev $ESCRA_INTERFACE up
+  
+    # Openwhisk build dependencies
+    sudo apt update
+    sudo apt install -y nodejs npm default-jre
+    sudo apt install -y default-jdk
+
+    # clone openwhisk fork, switch to branch with modified code
+    cd ~
+    git clone https://github.com/hunhoffe/openwhisk.git
+    cd openwhisk
+    git checkout --track origin/escra
+
+    # compile what is needed and create + tag the docker image for the controller
+    sudo bin/wskdev controller -b
+    sudo docker tag whisk/controller whisk/controller:vcpu2
+    sudo bin/wskdev invoker -b
+    sudo docker tag whisk/invoker whisk/invoker:vcpu2
+  
     coproc nc { nc -l $1 $SECONDARY_PORT; }
 
     printf "%s: %s\n" "$(date +"%T.%N")" "Waiting for command to join kubernetes cluster, nc pid is $nc_PID"
@@ -193,6 +208,8 @@ prepare_for_openwhisk() {
     done <<< "$NODE_NAMES"
     printf "%s: %s\n" "$(date +"%T.%N")" "Labelled nodes as invoker or core nodes."
     
+    cp /local/repository/myruntimes.json $INSTALL_DIR/openwhisk-deploy-kube/helm/openwhisk/myruntimes.json
+    
     cp /local/repository/mycluster.yaml $INSTALL_DIR/openwhisk-deploy-kube/mycluster.yaml
     sed -i.bak "s/REPLACE_ME_WITH_IP/$1/g" $INSTALL_DIR/openwhisk-deploy-kube/mycluster.yaml
     sed -i.bak "s/REPLACE_ME_WITH_COUNT/$3/g" $INSTALL_DIR/openwhisk-deploy-kube/mycluster.yaml
@@ -263,6 +280,12 @@ if test -d "/mydata"; then
     configure_docker_storage
 fi
 
+# Add all users to docker group
+for FILE in /users/*; do
+    CURRENT_USER=${FILE##*/}
+    sudo gpasswd -a $CURRENT_USER docker
+done
+
 # Use second argument (node IP) to replace filler in kubeadm configuration, and restart the daemon
 sudo sed -i.bak "s/REPLACE_ME_WITH_IP/$2/g" /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 sudo systemctl daemon-reload
@@ -276,7 +299,6 @@ if [ $1 == $SECONDARY_ARG ] ; then
         printf "%s: %s\n" "$(date +"%T.%N")" "Start Kubernetes is $3, done!"
         exit 0
     fi
-    configure_worker_interface $2
     setup_secondary $2
     exit 0
 fi
