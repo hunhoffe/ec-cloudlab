@@ -13,7 +13,7 @@ else
 fi
 
 # Make directory for yaml
-mkdir ~/my_yaml
+mkdir ~/my-yaml
 
 # Setup openwhisk endpoints
 wsk property set --apihost 192.168.6.1:31001
