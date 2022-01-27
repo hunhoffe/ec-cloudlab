@@ -13,7 +13,7 @@ whisk:
   # Amount of memory per invoker
   containerPool:
     # At 256 MB per action, this allows 256 MB x 150 user actions = 38400 MB per invoker
-    userMemory: "38400m"
+    userMemory: "14336m"
   loadbalancer:
     blackboxFraction: "100%"
 k8s:
