@@ -24,11 +24,11 @@ nginx:
 controller:
   replicaCount: REPLACE_ME_WITH_COUNT
   imageName: "whisk/controller"
-  imageTag: "vcpu2"
+  imageTag: "vcpu1"
 invoker:
   jvmHeapMB: 8192
   imageName: "whisk/invoker"
-  imageTag: "vcpu2"
+  imageTag: "vcpu1"
   # TODO: disable invoker logging to help performance in benchmarks
   # options: "-Dwhisk.spi.LogStoreProvider=org.apache.openwhisk.core.containerpool.logging.LogDriverLogStoreProvider"
   containerFactory:
