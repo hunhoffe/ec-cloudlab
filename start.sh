@@ -62,9 +62,9 @@ setup_secondary() {
 
     # compile what is needed and create + tag the docker image for the controller
     sudo bin/wskdev controller -b
-    sudo docker tag whisk/controller whisk/controller:vcpu2
+    sudo docker tag whisk/controller whisk/controller:vcpu1
     sudo bin/wskdev invoker -b
-    sudo docker tag whisk/invoker whisk/invoker:vcpu2
+    sudo docker tag whisk/invoker whisk/invoker:vcpu1
   
     coproc nc { nc -l $1 $SECONDARY_PORT; }
 
