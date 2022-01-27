@@ -57,3 +57,17 @@ cd $INSTALL_DIR/ec/Distributed-Containers/ec_gcm
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/bin/gcc-8 -DCMAKE_CXX_COMPILER=/usr/bin/g++-8 .
 make -j20
 cd $INSTALL_DIR
+
+# Install Autopilot monitoring script dependencies
+sudo -H python3.7 -m pip install --upgrade pip
+sudo -H python3.7 -m pip install numpy
+sudo -H pip3 install --ignore-installed PyYAML
+sudo -H python3.7 -m pip install kubernetes
+sudo -H python3.7 -m pip install --upgrade requests
+
+# Clone and setup Autopilot monitoring scripts
+cd ~
+git clone git@github.com:goodarzysepideh/Autopilot.git
+git checkout --track origin/read-only-look-for-new-pods
+cd Autopilot/RL
+rm *.txt
