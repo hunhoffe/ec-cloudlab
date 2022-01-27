@@ -47,6 +47,5 @@ sudo -H python3.7 -m pip install --upgrade requests
 # Clone and setup Autopilot monitoring scripts
 cd ~
 git clone git@github.com:goodarzysepideh/Autopilot.git
+cd Autopilot
 git checkout --track origin/read-only-look-for-new-pods
-cd Autopilot/RL
-rm *.txt
