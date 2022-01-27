@@ -1,0 +1,13 @@
+{
+        "name": "app1",
+        "gcmIP": "192.168.6.1",
+        "agentIPs": [
+                "192.168.6.2",
+                "192.168.6.3",
+                "192.168.6.4"
+        ],
+        "tenants": 1,
+        "yaml_path" : [
+                "/users/hunhoffe/my-yaml"
+        ]
+}
