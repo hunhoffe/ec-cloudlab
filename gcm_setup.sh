@@ -2,6 +2,7 @@
 
 INSTALL_DIR=/mydata
 EC_BRANCH="ftr-serverless"
+EC_GCM_BRANCH="ftr-serverless-idl"
 
 # Check and see if github SSH key is set up for current user
 echo "Checking SSH access to github"
@@ -50,7 +51,8 @@ cmake .. && make -j && sudo make install
 # Compile GCM
 # the ldconfig is necessary after installing grpc. I should have done this in the gcm image creation, but oh well.
 sudo ldconfig
-cd $INSTALL_DIR/ec/Distributed-Containers/ec_gcm 
+cd $INSTALL_DIR/ec/Distributed-Containers/ec_gcm
+git checkout --track origin/$EC_GCM_BRANCH
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/bin/gcc-8 -DCMAKE_CXX_COMPILER=/usr/bin/g++-8 .
 make -j20
 cd $INSTALL_DIR
