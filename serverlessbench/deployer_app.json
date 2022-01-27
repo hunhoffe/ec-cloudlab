@@ -1,0 +1,19 @@
+{
+  "DC-def": [
+    {
+        "name": "app1",
+        "specs": {
+              "mem": 28672,
+              "cpu": 112000
+        },
+        "gcmIP": "192.168.6.1",
+        "agentIPs": [
+                "192.168.6.2",
+                "192.168.6.3",
+                "192.168.6.4"
+        ],
+        "deploymentPath" : "/users/hunhoffe/my-yaml/",
+            "namespace": "openwhisk"
+    }
+  ]
+}
