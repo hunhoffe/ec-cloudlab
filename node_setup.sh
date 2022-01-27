@@ -32,3 +32,21 @@ git submodule update --init --remote -- third_party/DeathStarBench/
 git submodule update --init -- third_party/cadvisor/
 cd third_party/cadvisor
 make build
+
+# Install Autopilot monitoring script dependencies
+sudo apt update
+sudo apt install -y software-properties-common
+sudo add-apt-repository -y ppa:deadsnakes/ppa
+sudo apt install -y python3.7
+sudo -H python3.7 -m pip install --upgrade pip
+sudo -H python3.7 -m pip install numpy
+sudo -H pip3 install --ignore-installed PyYAML
+sudo -H python3.7 -m pip install kubernetes
+sudo -H python3.7 -m pip install --upgrade requests
+
+# Clone and setup Autopilot monitoring scripts
+cd ~
+git clone git@github.com:goodarzysepideh/Autopilot.git
+git checkout --track origin/read-only-look-for-new-pods
+cd Autopilot/RL
+rm *.txt
