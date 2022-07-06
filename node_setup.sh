@@ -2,7 +2,7 @@
 set -x
 
 INSTALL_DIR=/mydata
-EC_BRANCH="ftr-serverless"
+EC_BRANCH="main"
 
 # Check and see if github SSH key is set up for current user
 echo "Checking SSH access to github"
