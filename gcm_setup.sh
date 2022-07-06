@@ -1,8 +1,8 @@
 #!/bin/bash
 
 INSTALL_DIR=/mydata
-EC_BRANCH="ftr-serverless"
-EC_GCM_BRANCH="ftr-serverless-idl"
+EC_BRANCH="main"
+EC_GCM_BRANCH="main"
 
 # Check and see if github SSH key is set up for current user
 echo "Checking SSH access to github"
