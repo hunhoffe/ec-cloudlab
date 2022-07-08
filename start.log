@@ -1,0 +1,821 @@
+19:00:24.671609202: args=('primary' '192.168.6.1' '3' 'True' 'False' '0' )
+19:00:24.725011749: Turned off swap
+19:00:24.745388468: Configuring docker storage
+{
+        "exec-opts": ["native.cgroupdriver=systemd"],
+        "log-driver": "json-file",
+        "log-opts": {
+            "max-size": "100m"
+        },
+        "storage-driver": "overlay2",
+        "data-root": "/mydata/docker"
+    }
+Hello from Docker!
+19:00:29.453096798: Configured docker storage to use mountpoint
+Adding user Akshay9 to group docker
+Adding user Bashayer to group docker
+Adding user ejbraun to group docker
+Adding user erke9581 to group docker
+Adding user gcusack to group docker
+Adding user geniuser to group docker
+Adding user goldtoad to group docker
+Adding user hunhoffe to group docker
+Adding user maziyar to group docker
+Adding user srga8641 to group docker
+Adding user ssnathan to group docker
+geniuser
+19:00:31.905367179: Starting Kubernetes... (this can take several minutes)... 
+I0705 19:00:32.556770    3352 version.go:255] remote version is much newer: v1.24.2; falling back to: stable-1.23
+19:01:23.819915731: Done! Output in /home/ec/k8s_install.log
+KUBECONFIG=/home/ec/.kube/config
+net.bridge.bridge-nf-call-iptables = 1
+serviceaccount/weave-net created
+clusterrole.rbac.authorization.k8s.io/weave-net created
+clusterrolebinding.rbac.authorization.k8s.io/weave-net created
+role.rbac.authorization.k8s.io/weave-net created
+rolebinding.rbac.authorization.k8s.io/weave-net created
+daemonset.apps/weave-net created
+19:01:26.552090000: > Waiting for pods to start up: 
+...19:01:30.372060377: Done!
+19:01:30.379529927: Remote command is: kubeadm join 192.168.6.1:6443 --token wzkmml.bo3uts41cpsybp1p \
+	--discovery-token-ca-cert-hash sha256:e11ce9da324c61df85e8624ea668f050cb48ae00c1e01d1acfa51dc87d9689a8 
+Cluster nodes expected: 4
+Waiting for 3/4 nodes...
+19:01:32.485784285: Registering nodes, attempt #0, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:01:43.804539319: Registering nodes, attempt #1, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:01:52.045518975: Registering nodes, attempt #2, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:00.316926018: Registering nodes, attempt #3, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:05.500763179: Registering nodes, attempt #4, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:07.624891733: Registering nodes, attempt #5, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:09.746440142: Registering nodes, attempt #6, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:11.855500800: Registering nodes, attempt #7, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:13.984285508: Registering nodes, attempt #8, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:16.100621555: Registering nodes, attempt #9, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:20.257544290: Registering nodes, attempt #10, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:22.385684951: Registering nodes, attempt #11, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:24.508888517: Registering nodes, attempt #12, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:26.634992143: Registering nodes, attempt #13, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:28.767351138: Registering nodes, attempt #14, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:30.898554416: Registering nodes, attempt #15, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:33.025006258: Registering nodes, attempt #16, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:35.148771183: Registering nodes, attempt #17, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:37.269203195: Registering nodes, attempt #18, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:39.393368278: Registering nodes, attempt #19, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:41.519398045: Registering nodes, attempt #20, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:43.649103882: Registering nodes, attempt #21, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:45.773119553: Registering nodes, attempt #22, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:47.895607904: Registering nodes, attempt #23, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:50.022997891: Registering nodes, attempt #24, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:52.146995565: Registering nodes, attempt #25, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:54.272659172: Registering nodes, attempt #26, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:56.400511877: Registering nodes, attempt #27, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:02:58.527903159: Registering nodes, attempt #28, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:00.653858022: Registering nodes, attempt #29, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:02.782434449: Registering nodes, attempt #30, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:04.921959904: Registering nodes, attempt #31, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:07.049100772: Registering nodes, attempt #32, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:09.169482748: Registering nodes, attempt #33, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:11.291194563: Registering nodes, attempt #34, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:13.417829402: Registering nodes, attempt #35, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:15.539914280: Registering nodes, attempt #36, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:17.663339699: Registering nodes, attempt #37, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:19.785838849: Registering nodes, attempt #38, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:21.912089905: Registering nodes, attempt #39, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:24.052817374: Registering nodes, attempt #40, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:26.189429013: Registering nodes, attempt #41, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:28.317007329: Registering nodes, attempt #42, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:30.444490714: Registering nodes, attempt #43, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:32.568411218: Registering nodes, attempt #44, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:34.692517669: Registering nodes, attempt #45, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:36.813506429: Registering nodes, attempt #46, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:38.939001950: Registering nodes, attempt #47, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:41.067476043: Registering nodes, attempt #48, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:43.199576713: Registering nodes, attempt #49, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:45.329307515: Registering nodes, attempt #50, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:47.454110428: Registering nodes, attempt #51, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:49.578429318: Registering nodes, attempt #52, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:51.704243494: Registering nodes, attempt #53, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:53.822105899: Registering nodes, attempt #54, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:55.964663360: Registering nodes, attempt #55, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:03:58.088632161: Registering nodes, attempt #56, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:00.213202117: Registering nodes, attempt #57, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:02.337777065: Registering nodes, attempt #58, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:04.444177094: Registering nodes, attempt #59, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:06.572714397: Registering nodes, attempt #60, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:08.704086748: Registering nodes, attempt #61, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:10.829521411: Registering nodes, attempt #62, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:12.958566274: Registering nodes, attempt #63, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:15.087464890: Registering nodes, attempt #64, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:17.218159069: Registering nodes, attempt #65, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:19.341109041: Registering nodes, attempt #66, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:21.478891286: Registering nodes, attempt #67, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:23.613453329: Registering nodes, attempt #68, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:25.738141152: Registering nodes, attempt #69, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:27.867146564: Registering nodes, attempt #70, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:29.997070203: Registering nodes, attempt #71, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:32.124286445: Registering nodes, attempt #72, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:34.230141335: Registering nodes, attempt #73, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:36.372850569: Registering nodes, attempt #74, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:38.499658329: Registering nodes, attempt #75, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:40.625210943: Registering nodes, attempt #76, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:42.752617106: Registering nodes, attempt #77, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:44.876789915: Registering nodes, attempt #78, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:47.001429023: Registering nodes, attempt #79, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:49.128731456: Registering nodes, attempt #80, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:51.254397216: Registering nodes, attempt #81, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:53.376616538: Registering nodes, attempt #82, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:55.499421256: Registering nodes, attempt #83, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:57.623452005: Registering nodes, attempt #84, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:04:59.746087667: Registering nodes, attempt #85, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:01.868442848: Registering nodes, attempt #86, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:03.995300352: Registering nodes, attempt #87, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:06.121882244: Registering nodes, attempt #88, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:08.255965684: Registering nodes, attempt #89, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:10.380796402: Registering nodes, attempt #90, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:12.506234827: Registering nodes, attempt #91, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:14.629676085: Registering nodes, attempt #92, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:16.761862803: Registering nodes, attempt #93, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:18.884913727: Registering nodes, attempt #94, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:21.009240707: Registering nodes, attempt #95, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:23.129283078: Registering nodes, attempt #96, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:25.255493615: Registering nodes, attempt #97, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:27.374575335: Registering nodes, attempt #98, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:29.501341702: Registering nodes, attempt #99, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:31.625152776: Registering nodes, attempt #100, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:33.746502835: Registering nodes, attempt #101, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:35.869637100: Registering nodes, attempt #102, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:37.995108738: Registering nodes, attempt #103, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:40.119359757: Registering nodes, attempt #104, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:42.225736644: Registering nodes, attempt #105, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:44.333116890: Registering nodes, attempt #106, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:46.463487872: Registering nodes, attempt #107, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:48.593144069: Registering nodes, attempt #108, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:50.714325088: Registering nodes, attempt #109, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:52.839438944: Registering nodes, attempt #110, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:54.960568646: Registering nodes, attempt #111, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:57.087014915: Registering nodes, attempt #112, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:05:59.209265141: Registering nodes, attempt #113, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:01.332454927: Registering nodes, attempt #114, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:03.455610143: Registering nodes, attempt #115, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:05.588272497: Registering nodes, attempt #116, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:07.713424425: Registering nodes, attempt #117, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:09.837338160: Registering nodes, attempt #118, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:11.961630508: Registering nodes, attempt #119, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:14.084669734: Registering nodes, attempt #120, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:16.207221844: Registering nodes, attempt #121, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:18.332268867: Registering nodes, attempt #122, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:20.455548487: Registering nodes, attempt #123, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:22.578799546: Registering nodes, attempt #124, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:24.707069892: Registering nodes, attempt #125, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:26.831715285: Registering nodes, attempt #126, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:28.941436065: Registering nodes, attempt #127, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:31.065995958: Registering nodes, attempt #128, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:33.192645534: Registering nodes, attempt #129, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:35.309053658: Registering nodes, attempt #130, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:37.437182180: Registering nodes, attempt #131, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:39.562176853: Registering nodes, attempt #132, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:41.684187321: Registering nodes, attempt #133, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:43.809636391: Registering nodes, attempt #134, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:45.934652277: Registering nodes, attempt #135, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:48.058777020: Registering nodes, attempt #136, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:50.185647224: Registering nodes, attempt #137, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:52.298229614: Registering nodes, attempt #138, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:54.423997322: Registering nodes, attempt #139, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:56.548012134: Registering nodes, attempt #140, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:06:58.673109154: Registering nodes, attempt #141, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:07:00.794335676: Registering nodes, attempt #142, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:07:02.916430686: Registering nodes, attempt #143, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:07:05.041812511: Registering nodes, attempt #144, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:07:07.167105873: Registering nodes, attempt #145, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:07:09.272918874: Registering nodes, attempt #146, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:07:11.380555997: Registering nodes, attempt #147, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:07:13.505600261: Registering nodes, attempt #148, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:07:15.627467661: Registering nodes, attempt #149, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:07:17.753128981: Registering nodes, attempt #150, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 1/4 nodes
+19:07:19.875665473: Registering nodes, attempt #151, num left=3 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 2/4 nodes
+19:07:21.999969746: Registering nodes, attempt #152, num left=2 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 2/4 nodes
+19:07:24.130558854: Registering nodes, attempt #153, num left=2 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 2/4 nodes
+19:07:26.255085368: Registering nodes, attempt #154, num left=2 expected=4
+192.168.6.2
+192.168.6.3
+192.168.6.4
+Counted 4/4 nodes
+19:07:26.380006431: Waiting for all nodes to have status of 'Ready': 
+.................19:07:45.612381723: Done!
+19:07:45.615502903: Deploy Openwhisk is True, done!

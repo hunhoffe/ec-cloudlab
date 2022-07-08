@@ -24,8 +24,8 @@ source ~/.bashrc
 sudo mkdir $INSTALL_DIR/ec
 sudo chown $USER $INSTALL_DIR/ec
 sudo chmod u+rwx $INSTALL_DIR/ec
-git clone git@github.com:gregcusack/Distributed-Containers.git $INSTALL_DIR/ec/Distributed-Containers
-cd $INSTALL_DIR/ec/Distributed-Containers
+git clone git@github.com:gregcusack/Escra.git $INSTALL_DIR/ec/Escra
+cd $INSTALL_DIR/ec/Escra
 git checkout --track origin/$EC_BRANCH
 git submodule update --init --remote -- EC-Agent/
 git submodule update --init --remote -- third_party/DeathStarBench/
