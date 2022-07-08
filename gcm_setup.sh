@@ -1,8 +1,8 @@
 #!/bin/bash
 
 INSTALL_DIR=/mydata
-EC_BRANCH="ftr-serverless"
-EC_GCM_BRANCH="ftr-serverless-idl"
+EC_BRANCH="main"
+EC_GCM_BRANCH="main"
 
 # Check and see if github SSH key is set up for current user
 echo "Checking SSH access to github"
@@ -36,8 +36,8 @@ sudo mkdir $INSTALL_DIR/ec
 sudo chown $USER $INSTALL_DIR/ec
 sudo chmod u+rwx $INSTALL_DIR/ec
 cd $INSTALL_DIR/ec
-git clone git@github.com:gregcusack/Distributed-Containers.git
-cd Distributed-Containers
+git clone git@github.com:gregcusack/Escra.git
+cd Escra
 git checkout --track origin/$EC_BRANCH
 git submodule update --init --remote -- ec_gcm/
 git submodule update --init --remote -- ec_deployer/
@@ -51,7 +51,7 @@ cmake .. && make -j && sudo make install
 # Compile GCM
 # the ldconfig is necessary after installing grpc. I should have done this in the gcm image creation, but oh well.
 sudo ldconfig
-cd $INSTALL_DIR/ec/Distributed-Containers/ec_gcm
+cd $INSTALL_DIR/ec/Escra/ec_gcm
 git checkout --track origin/$EC_GCM_BRANCH
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/bin/gcc-8 -DCMAKE_CXX_COMPILER=/usr/bin/g++-8 .
 make -j20
